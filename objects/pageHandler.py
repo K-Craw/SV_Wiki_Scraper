@@ -7,13 +7,11 @@ from objects.JSONParser import JSONParser
 
 
 class pageHandler:
-    def __init__(self):
-        self = self
-
     #This function queries a pages description using the searched value.
-    async def get_page_summary(searched):
-        request_url = f"https://stardewvalleywiki.com/mediawiki/api.php?action=parse&page={searched}&section=0&format=json"
-        request = requests.get(request_url).json()
-        print(JSONParser.summary(request))  
+    #calls jsonparser to get the summary information
+    async def _get_summary(searched):
+        requested_JSON = requests.get(f"https://stardewvalleywiki.com/mediawiki/api.php?action=parse&page={searched}&format=json").json()
+        summary = JSONParser.page_description(requested_JSON)
+        return summary
         
 
