@@ -8,3 +8,15 @@ To be implemented/plans:
         - figure out how to refactor to create a controller for the API calls.
         - coroutines?
         - API parsing?
+
+
+Could implement?
+    - Price check
+    - Compare
+    - Season check
+    - Construction check
+    - Likes/Dislikes
+    - Location @ date/time
+    - recipe checks
+    - general wiki checks
+    
