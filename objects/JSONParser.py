@@ -7,3 +7,8 @@ class JSONParser:
             if section['name'] == 'description':
                 return section['*']
         return 'NONE_FOUND'
+
+
+    def get_category_members(json):
+        return json['query']['categorymembers']
+        return 'NONE_FOUND'
