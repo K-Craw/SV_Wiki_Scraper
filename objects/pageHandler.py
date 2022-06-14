@@ -15,7 +15,7 @@ class pageHandler:
         return summary
     
     async def _get_list_of(category):
-        json_request = requests.get(f"https://stardewvalleywiki.com/mediawiki/api.php?action=query&list=categorymembers&cmtitle=Category:NPCs&cmlimit=500&format=json").json()
+        json_request = requests.get(f"https://stardewvalleywiki.com/mediawiki/api.php?action=query&list=categorymembers&cmtitle=Category:{category}&cmlimit=500&format=json").json()
         members = JSONParser.get_category_members(json_request)
         return members
 
