@@ -1,13 +1,19 @@
+import re
 from dotenv import load_dotenv
 import json
 import requests
+from objects.JSONParser import JSONParser
+
 
 
 class pageHandler:
-    def __init__(self ):
+    def __init__(self):
         self = self
 
-    async def get_pages_search(searched):
-        print(searched)
-        request = requests.get("https://stardewvalleywiki.com/mediawiki/api.php?action=query&titles=Blacksmith&format=json").json()
-        return json.dumps(request)
+    #This function queries a pages description using the searched value.
+    async def get_page_summary(searched):
+        request_url = f"https://stardewvalleywiki.com/mediawiki/api.php?action=parse&page={searched}&section=0&format=json"
+        request = requests.get(request_url).json()
+        print(JSONParser.summary(request))  
+        
+

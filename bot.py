@@ -18,8 +18,7 @@ client = discord.Client()
 @client.event
 async def on_ready():
     pagehandler = pageHandler()
-    titles = await pageHandler.get_pages_search('Blacksmith')
-    print(titles)
+    titles = await pageHandler.get_page_summary('Blacksmith')
 
 
 client.run(TOKEN)
