@@ -1,3 +1,9 @@
+Current Goal:
+-Implment querying of NPCs
+
+
+
+
 To be implemented/plans:
         - and returning the parsed text from the wiki page to get the requested data.
             -requests for different forms of data from the ame page? e.g wiki Blacksmith could return the whole page,

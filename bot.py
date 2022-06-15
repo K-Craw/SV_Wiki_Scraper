@@ -3,7 +3,7 @@ import discord
 from dotenv import load_dotenv
 import requests
 import json
-from objects.pageHandler import pageHandler
+from objects.CommandHandler import CommandHandler
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -13,11 +13,13 @@ SVWIKI = os.getenv('SVWIKI')
 #creates a client at the discord endpoint.
 client = discord.Client()
 
+
+
 #waits for client to run 
 @client.event
 async def on_ready():
-    list_of = requests.get(f"https://stardewvalleywiki.com/mediawiki/api.php?action=query&prop=categories&titles=Coop&format=json").json()
-    print(json.dumps(list_of))
+    print("Bot online!")
+
 
 @client.event
 async def on_message(message):
@@ -27,25 +29,26 @@ async def on_message(message):
 
     #if the message is a command, checks to see what kind of command it is.
     #handles command.
-    if message.content.startswith('wiki!'):
-        command = message.content.split(' ')[1]
-        if command == 'list':
-            category = message.content.split(' ')
-            items = await pageHandler._get_list_of(category)
-            itemString = f"The {category} in the wiki are:"
-            for item in items:
-                itemString += ' ' + item['title'] + ','
-            await message.channel.send(itemString)
-        #current implementation of get description
-        #needs to be changed.
-        else: 
-            wikiTitle = replace_spaces(command)
-            result = await pageHandler._get_summary(wikiTitle)
-            await message.channel.send(result)
+    elif is_command(message):
+        # Get the token stream and the first argument for message routing
+        tokens = message.content.split(' ')
+        arg1 = tokens[1]
 
-#replaces spaces with %20 for URLs
-def replace_spaces(content):
-    return content.replace(" ", "%20")
+        if arg1 == 'list':
+            await message.channel.send(await CommandHandler.list_command(tokens))
+        
+        elif arg1 == 'sum':
+            await message.channel.send( await CommandHandler.summary_command(tokens))
+
+        elif arg1 == 'help':
+            await message.channel.send(CommandHandler.help_command())
+        
+    else: 
+        return
+
+
+def is_command(message):
+    return message.content.startswith("$V")
 
 
 client.run(TOKEN)

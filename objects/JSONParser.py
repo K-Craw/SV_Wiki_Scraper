@@ -10,5 +10,6 @@ class JSONParser:
 
 
     def get_category_members(json):
+        print(json)
         return json['query']['categorymembers']
         return 'NONE_FOUND'
