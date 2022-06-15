@@ -8,8 +8,9 @@ class JSONParser:
                 return section['*']
         return 'NONE_FOUND'
 
-
-    def get_category_members(json):
-        print(json)
+    def get_queried_members(json):
         return json['query']['categorymembers']
         return 'NONE_FOUND'
+    
+    def get_parsed_wikitext(json):
+        return json['parse']['wikitext']['*']

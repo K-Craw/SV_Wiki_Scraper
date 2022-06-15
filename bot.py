@@ -3,6 +3,7 @@ import discord
 from dotenv import load_dotenv
 import requests
 import json
+from objects.ApiHandler import ApiHandler
 from objects.CommandHandler import CommandHandler
 
 load_dotenv()
@@ -18,7 +19,7 @@ client = discord.Client()
 #waits for client to run 
 @client.event
 async def on_ready():
-    print("Bot online!")
+    print(await ApiHandler._get_category_members_('NPCs'))
 
 
 @client.event

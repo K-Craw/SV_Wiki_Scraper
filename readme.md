@@ -1,6 +1,6 @@
 Current Goal:
 -Implment querying of NPCs
-
+    - Who does this NPC like?
 
 
 

@@ -15,7 +15,7 @@ class CommandHandler:
             elif (tokens.index(token) == 2):
                 category += token
 
-        items = await ApiHandler._get_category_members(category)
+        items = await ApiHandler._get_category_members_(category)
 
         itemString = f"The list of {category} in the wiki are:"
         for item in items:
@@ -27,7 +27,7 @@ class CommandHandler:
         return itemString
 
     async def summary_command(tokens):
-        return await ApiHandler._get_summary(tokens[2])
+        return await ApiHandler._get_summary_wikitext_(tokens[2])
 
     def help_command():
         return ('Here is a list of commands: \n' 
