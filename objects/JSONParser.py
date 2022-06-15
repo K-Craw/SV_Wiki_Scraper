@@ -14,3 +14,8 @@ class JSONParser:
     
     def get_parsed_wikitext(json):
         return json['parse']['wikitext']['*']
+
+    def get_parsed_loves(wikitext):
+        tokens = wikitext.split(" ")
+        for token in tokens:
+            print(token + " END ")

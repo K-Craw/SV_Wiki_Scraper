@@ -4,6 +4,16 @@ from objects.ApiHandler import ApiHandler
 #required message for the bot to send to the server.
 class CommandHandler:
 
+    async def loves_command(tokens):
+        npc = ""
+        for token in tokens:
+            if (tokens.index(token) > 2):
+                category += " " + token 
+            elif (tokens.index(token) == 2):
+                category += token
+        
+        
+
     #returns a string of items belonging to the category passed in.
     async def list_command(tokens):
         #adds all list arguments and then urlifys them for

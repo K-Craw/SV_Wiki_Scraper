@@ -2,6 +2,8 @@ from dotenv import load_dotenv
 import json
 import requests
 from objects.JSONParser import JSONParser
+from bs4 import BeautifulSoup
+import pandas as pd
 
 ENDPOINT ='https://stardewvalleywiki.com/mediawiki/api.php?'
 
@@ -31,18 +33,37 @@ class ApiHandler:
 
     ##returns the NPC's schedule section wikitext.
     async def _get_NPC_schedule_wikitext_(npc):
-        requested_JSON = requests.get(f"{ENDPOINT}action=parse&prop=wikitext&section=1&page={npc}&format=json").json()
-        return JSONParser.get_parsed_wikitext(requested_JSON)
+        requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page={npc}&format=json").json()
+        html = requested_JSON['parse']['text']['*']
+        soup = BeautifulSoup(html, 'html.parser')
+        df = pd.read_html(html)
+        print(df)
+        return 
+
+
+
 
     ##returns the NPC's gifts section wikitext.
     async def _get_NPC_gifts_wikitext_(npc):
-        requested_JSON = requests.get(f"{ENDPOINT}action=parse&prop=wikitext&section=3&page={npc}&format=json").json()
-        return JSONParser.get_parsed_wikitext(requested_JSON)
+        requested_JSON = requests.get(f"{ENDPOINT}action=parse&page={npc}&section=4&format=json").json()
+        html = requested_JSON['parse']['text']['*']
+        df = pd.read_html(html)
+
+        newString = f'{npc} loves:'
+        for item in df[1]['Name']:
+            newString += f'\n\t- {item}.'
+        return newString
+
+
+
 
     ##returns the NPC's heart events section wikitext.
     async def _get_NPC_hearts_wikitext_(npc):
-        requested_JSON = requests.get(f"{ENDPOINT}action=parse&prop=wikitext&section=10&page={npc}&format=json").json()
-        return JSONParser.get_parsed_wikitext(requested_JSON)
+        requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=10&page={npc}&format=json").json()
+        html = requested_JSON['parse']['text']['*']
+        soup = BeautifulSoup(html, 'html.parser')
+        df = pd.read_html(html)
+        print(df)
 
     def replace_spaces(content):
         return content.replace(' ', '%20')

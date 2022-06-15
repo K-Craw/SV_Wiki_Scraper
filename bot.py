@@ -19,7 +19,7 @@ client = discord.Client()
 #waits for client to run 
 @client.event
 async def on_ready():
-    print(await ApiHandler._get_category_members_('NPCs'))
+    print("Online!")
 
 
 @client.event
@@ -36,14 +36,19 @@ async def on_message(message):
         arg1 = tokens[1]
 
         if arg1 == 'list':
-            await message.channel.send(await CommandHandler.list_command(tokens))
+            await message.channel.send( await CommandHandler.list_command(tokens) )
         
         elif arg1 == 'sum':
-            await message.channel.send( await CommandHandler.summary_command(tokens))
+            await message.channel.send( await CommandHandler.summary_command(tokens) )
+        
+        elif (arg1 == 'loves'):
+            await message.channel.send(await ApiHandler._get_NPC_gifts_wikitext_(tokens[2]))
 
         elif arg1 == 'help':
             await message.channel.send(CommandHandler.help_command())
         
+        else:
+            await message.channel.send("Invalid command.")
     else: 
         return
 
