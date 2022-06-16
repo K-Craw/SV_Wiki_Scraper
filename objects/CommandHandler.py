@@ -1,83 +1,62 @@
+from lib2to3.pgen2.tokenize import tokenize
 from objects.ApiHandler import ApiHandler
+from objects.NPCCommandHandler import NPCCommandHandler
 
-#CommandHandler handles the nitty-gritty of commands, calls the API to get the info for them, and returns the
+
+#CommandHandler handles the nitty-gritty of commands, calls the API to get the 
+# info for them, and returns the
 #required message for the bot to send to the server.
 class CommandHandler:
 
+#------------------------------------------------------------------------------
+#These functions take an NPC and returns the gifts they like/dislikes/neutral/etc.
     #returns a list of items the given NPC loves.
     async def loves_command(tokens):
-        npc = ""
-        for token in tokens:
-            if (tokens.index(token) > 2):
-                npc += " " + token 
-            elif (tokens.index(token) == 2):
-                npc += token
-        
-        return await ApiHandler._get_NPC_loves_(npc)
+        if (len(tokens) > 3): return "Huh? This command doesn't exist.\nTry: $V loves/likes/neutral/dislikes/hates <npc name>"
+        npc = CommandHandler.replace_spaces(tokens)
+        return await NPCCommandHandler.get_npc_loves(npc)
         
 
     #returns a list of items the given NPC likes.
     async def likes_command(tokens):
-        npc = ""
+        if (len(tokens) > 3): return "Huh? \nThis command doesn't exist.\nTry: $V loves/likes/neutral/dislikes/hates <npc name>"
+        npc = CommandHandler.replace_spaces(tokens)
 
-        for token in tokens:
-            if (tokens.index(token) > 2):
-                npc += " " + token 
-            elif (tokens.index(token) == 2):
-                npc += token
-
-        return await ApiHandler._get_NPC_likes_(npc)
+        return await NPCCommandHandler.get_npc_likes(npc)
 
 
     #returns a list of items the given NPC is neutral towards.
     async def neutral_command(tokens):
-        npc = ""
+        if (len(tokens) > 3): return "Huh? \nThis command doesn't exist.\nTry: $V loves/likes/neutral/dislikes/hates <npc name>"
+        npc = CommandHandler.replace_spaces(tokens)
 
-        for token in tokens:
-            if (tokens.index(token) > 2):
-                npc += " " + token 
-            elif (tokens.index(token) == 2):
-                npc += token
-
-        return await ApiHandler._get_NPC_neutrals_(npc)
+        return await NPCCommandHandler.get_npc_neutrals(npc)
 
 
     #returns a list of items the given NPC dislikes
     async def dislikes_command(tokens):
-        npc = ""
+        if (len(tokens) > 3): return "Huh? \nThis command doesn't exist.\nTry: $V loves/likes/neutral/dislikes/hates <npc name>"
+        npc = CommandHandler.replace_spaces(tokens)
 
-        for token in tokens:
-            if (tokens.index(token) > 2):
-                npc += " " + token 
-            elif (tokens.index(token) == 2):
-                npc += token
-
-        return await ApiHandler._get_NPC_dislikes_(npc)
+        return await NPCCommandHandler.get_npc_dislikes(npc)
         
 
     #returns a list of items the given NPC hates
     async def hates_command(tokens): 
-        npc = ""
+        if (len(tokens) > 3): return "Huh? \nThis command doesn't exist.\nTry: $V loves/likes/neutral/dislikes/hates <npc name>"
+        npc = CommandHandler.replace_spaces(tokens)
 
-        for token in tokens:
-            if (tokens.index(token) > 2):
-                npc += " " + token 
-            elif (tokens.index(token) == 2):
-                npc += token
+        return await NPCCommandHandler.get_npc_hates(npc)
 
-        return await ApiHandler._get_NPC_hates_(npc)
+#------------------------------------------------------------------------------
 
 
     #returns a string of items belonging to the category passed in.
     async def list_command(tokens):
+        
         #adds all list arguments and then urlifys them for
         #processing
-        category = ""
-        for token in tokens:
-            if (tokens.index(token) > 2):
-                category += " " + token 
-            elif (tokens.index(token) == 2):
-                category += token
+        category = CommandHandler.replace_spaces(tokens)
 
         items = await ApiHandler._get_category_members_(category)
 
@@ -103,4 +82,14 @@ class CommandHandler:
                 + '\t- list <category> to list items in that category: Ex. $V list NPCs -> returns a list of all NPC names.\n'
                 + '\t- loves/likes/neutral/dislikes/hates <npc> to return a list of items at that NPCs given preference level: Ex: $V loves Clint -> returns list of items Clint loves.\n'
                 )
-    
+
+    def replace_spaces(tokens):
+        tokenized = ""
+
+        for token in tokens:
+            if (tokens.index(token) > 2):
+                tokenized += "%20" + token 
+            elif (tokens.index(token) == 2):
+                tokenized += token
+
+        return tokenized

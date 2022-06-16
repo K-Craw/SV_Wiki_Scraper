@@ -1,4 +1,4 @@
-
+import pandas as pd
 import json as JSON
 
 class JSONParser:
@@ -15,7 +15,11 @@ class JSONParser:
     def get_parsed_wikitext(json):
         return json['parse']['wikitext']['*']
 
-    def get_parsed_loves(wikitext):
-        tokens = wikitext.split(" ")
-        for token in tokens:
-            print(token + " END ")
+    def parse_gifts(gifts, desireLevel, npc):
+        html = gifts['parse']['text']['*']
+        df = pd.read_html(html)
+
+        newString = f'{npc} {desireLevel}:'
+        for item in df[1]['Name']:
+            newString += f'\n\t- {item}.'
+        return newString

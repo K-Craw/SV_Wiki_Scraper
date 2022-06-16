@@ -7,6 +7,13 @@ import pandas as pd
 
 ENDPOINT ='https://stardewvalleywiki.com/mediawiki/api.php?'
 
+NPCS = set([
+    'alex', 'elliot', 'harvery', 'sam', 'sebastian', 'shane', 'abigail', 'emily', 'haley',
+    'leah', 'maru', 'penny', 'caroline', 'clint', 'demetrius', 'dwarf', 'evelyn', 'george',
+    'gus', 'jas', 'jodi', 'kent', 'krobus', 'lewis', 'linus', 'marnie', 'pam', 'pierre',
+    'robin', 'sandy', 'vincent', 'willy', 'wizard'
+    ])
+
 ##Handles calls to the MediaWiki API. Returns either requested string data or list of data.
 
 class ApiHandler:
@@ -32,8 +39,11 @@ class ApiHandler:
 
     ##returns the NPC's relationship section as wikitext.
     async def _get_NPC_relationships_(npc):
-        requested_JSON = requests.get(f"{ENDPOINT}action=parse&prop=wikitext&section=2&page={npc}&format=json").json()
-        return JSONParser.get_parsed_wikitext(requested_JSON)
+        if (npc.lower() in NPCS):
+            requested_JSON = requests.get(f"{ENDPOINT}action=parse&prop=wikitext&section=2&page={npc}&format=json").json()
+            return JSONParser.get_parsed_wikitext(requested_JSON)
+        else: 
+            return "No such NPC."
 
 
     ##returns the NPC's schedule section wikitext.
@@ -45,65 +55,34 @@ class ApiHandler:
         print(df)
         return 
 
-
    ###returns NPC's loved items as a string.
     async def _get_NPC_loves_(npc):
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&page={npc}&section=4&format=json").json()
-        html = requested_JSON['parse']['text']['*']
-        df = pd.read_html(html)
-
-        newString = f'{npc} loves:'
-        for item in df[1]['Name']:
-            newString += f'\n\t- {item}.'
-        return newString
+        return JSONParser.parse_gifts(requested_JSON, 'loves', npc)
 
 
     ###returns NPC's loved items as a string.
     async def _get_NPC_likes_(npc):
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&page={npc}&section=5&format=json").json()
-        html = requested_JSON['parse']['text']['*']
-        df = pd.read_html(html)
-
-        newString = f'{npc} likes:'
-        for item in df[1]['Name']:
-            newString += f'\n\t- {item}.'
-        return newString
+        return JSONParser.parse_gifts(requested_JSON, 'likes', npc)
 
 
     ###returns NPC's neutral items as a string.
     async def _get_NPC_neutrals_(npc):
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&page={npc}&section=6&format=json").json()
-        html = requested_JSON['parse']['text']['*']
-        df = pd.read_html(html)
-
-        newString = f'{npc} is neutral toward:'
-        for item in df[1]['Name']:
-            newString += f'\n\t- {item}.'
-        return newString
-
+        return JSONParser.parse_gifts(requested_JSON, 'is neutral towards', npc)
 
    ###returns NPC's disliked items as a string.
     async def _get_NPC_dislikes_(npc):
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&page={npc}&section=7&format=json").json()
-        html = requested_JSON['parse']['text']['*']
-        df = pd.read_html(html)
-
-        newString = f'{npc} dislikes:'
-        for item in df[1]['Name']:
-            newString += f'\n\t- {item}.'
-        return newString
+        return JSONParser.parse_gifts(requested_JSON, 'dislikes', npc)
 
 
    ###returns NPC's loved items as a string.
     async def _get_NPC_hates_(npc):
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&page={npc}&section=8&format=json").json()
-        html = requested_JSON['parse']['text']['*']
-        df = pd.read_html(html)
+        return JSONParser.parse_gifts(requested_JSON, 'hates', npc)
 
-        newString = f'{npc} hates:'
-        for item in df[1]['Name']:
-            newString += f'\n\t- {item}.'
-        return newString
 
     ##returns the NPC's heart events section wikitext.
     async def _get_NPC_hearts_wikitext_(npc):
