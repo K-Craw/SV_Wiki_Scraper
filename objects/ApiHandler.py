@@ -18,17 +18,18 @@ NPCS = set([
 
 class ApiHandler:
 
-
+#------------------------------------------------------------------------------------------------------------------------------
+#These functions deal with general wiki queryings.
     #This function queries a pages description using the searched value.
     #calls jsonparser to get the summary information
     async def _get_summary_wikitext_(searched):
         searched = ApiHandler.replace_spaces(searched)
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=0&page={searched}&format=json").json()
-        print(json.dumps(requested_JSON, indent=2))
         return requested_JSON['parse']['properties'][len(requested_JSON['parse']['properties'])-1]['*']
         #return json.dumps(requested_JSON, indent=2)
     
-
+#------------------------------------------------------------------------------------------------------------------------------
+#This function deals with categories querying.
     #This function queries for members of a category and returns the list of members.
     async def _get_category_members_(category):
         category = ApiHandler.replace_spaces(category)
@@ -36,6 +37,7 @@ class ApiHandler:
         members = JSONParser.get_queried_members(requested_JSON)
         return members
 
+#------------------------------------------------------------------------------------------------------------------------------
 
     ##returns the NPC's relationship section as wikitext.
     async def _get_NPC_relationships_(npc):
@@ -45,7 +47,8 @@ class ApiHandler:
         else: 
             return "No such NPC."
 
-
+#---------------------------------------------------------------------------------------------------------
+#These functions deal with NPC schedules.
     ##returns the NPC's schedule section wikitext.
     async def _get_NPC_schedule_wikitext_(npc):
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page={npc}&format=json").json()
@@ -55,6 +58,8 @@ class ApiHandler:
         print(df)
         return 
 
+#---------------------------------------------------------------------------------------------------------
+#These methods return lists of NPCs gifts at different levels of preference.
    ###returns NPC's loved items as a string.
     async def _get_NPC_loves_(npc):
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&page={npc}&section=4&format=json").json()
@@ -78,11 +83,12 @@ class ApiHandler:
         return JSONParser.parse_gifts(requested_JSON, 'dislikes', npc)
 
 
-   ###returns NPC's loved items as a string.
+   ###returns NPC's hated items as a string.
     async def _get_NPC_hates_(npc):
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&page={npc}&section=8&format=json").json()
         return JSONParser.parse_gifts(requested_JSON, 'hates', npc)
 
+#------------------------------------------------------------------------------------------------------------------------------
 
     ##returns the NPC's heart events section wikitext.
     async def _get_NPC_hearts_wikitext_(npc):

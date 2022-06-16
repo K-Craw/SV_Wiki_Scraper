@@ -60,3 +60,5 @@ class NPCCommandHandler:
             return hates
         else:
             return 'no such giftable NPC'
+
+#---------------------------------------------------------------------------------------------------------
