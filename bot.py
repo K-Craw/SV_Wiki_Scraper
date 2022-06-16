@@ -1,9 +1,6 @@
 import os
 import discord
 from dotenv import load_dotenv
-import requests
-import json
-from objects.ApiHandler import ApiHandler
 from objects.CommandHandler import CommandHandler
 
 load_dotenv()
@@ -14,13 +11,10 @@ SVWIKI = os.getenv('SVWIKI')
 #creates a client at the discord endpoint.
 client = discord.Client()
 
-
-
 #waits for client to run 
 @client.event
 async def on_ready():
     print("Online!")
-
 
 @client.event
 async def on_message(message):
@@ -42,7 +36,19 @@ async def on_message(message):
             await message.channel.send( await CommandHandler.summary_command(tokens) )
         
         elif (arg1 == 'loves'):
-            await message.channel.send(await ApiHandler._get_NPC_gifts_wikitext_(tokens[2]))
+            await message.channel.send( await CommandHandler.loves_command(tokens) )
+
+        elif (arg1 == 'likes'):
+            await message.channel.send( await CommandHandler.likes_command(tokens) )
+
+        elif (arg1 == 'neutral'):
+            await message.channel.send( await CommandHandler.neutral_command(tokens) )
+        
+        elif (arg1 == 'dislikes'):
+            await message.channel.send( await CommandHandler.dislikes_command(tokens) )
+        
+        elif (arg1 == 'hates'):
+            await message.channel.send( await CommandHandler.hates_command(tokens) )
 
         elif arg1 == 'help':
             await message.channel.send(CommandHandler.help_command())

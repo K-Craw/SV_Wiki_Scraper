@@ -1,19 +1,18 @@
 Current Goal:
 -Implment querying of NPCs
     - Return list of things this NPC loves.
+    - Change query so that it returns a list of the items instead of returning a string. This way the items
+    could be used to handle data. Think with schedule: schedule can be handled and used to check where
+    any NPC is at any time.
 
 
 
 To be implemented/plans:
-        - and returning the parsed text from the wiki page to get the requested data.
+    -Need to fix errors with spacing.
+    -need to come up with more complete/better system design.
             -requests for different forms of data from the ame page? e.g wiki Blacksmith could return the whole page,
             wiki blacksmith help could return all the sections on his page, wiki blacksmith process_geodes could
             return info from the process geodes section.
-        - figure out how to refactor to create a controller for the API calls.
-        - coroutines?
-        - API parsing?
-    -Need to deal with command handling and figure out how to non-messily handle the discord commands.
-    -Need to figure out how to parse other JSON better.
     -Need to figure out how to parse images.
     -Need to look more into design patterns.
 
