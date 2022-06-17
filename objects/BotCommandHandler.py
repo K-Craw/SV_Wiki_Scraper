@@ -1,34 +1,40 @@
-from lib2to3.pgen2.tokenize import tokenize
 from objects.ApiHandler import ApiHandler
 from objects.NPCCommandHandler import NPCCommandHandler
 
 
-#CommandHandler handles the nitty-gritty of commands, calls the API to get the 
-# info for them, and returns the
-#required message for the bot to send to the server.
-class CommandHandler:
+#BotCommandHandler takes the tokens from the message send to the bot,
+#checks if they match a valid format,
+#and if they do it passes the npc to the NPCCommandHandler for API call handling.
+class BotCommandHandler:
+
+    async def schedule_command(tokens):
+        if (len(tokens) > 3): return "Huh? This command doesn't exist.\nTry: $V schedule <npc name>"
+        npc = tokens[2];
+
+        return await NPCCommandHandler.get_npc_schedule(npc)
 
 #------------------------------------------------------------------------------
 #These functions take an NPC and returns the gifts they like/dislikes/neutral/etc.
     #returns a list of items the given NPC loves.
     async def loves_command(tokens):
         if (len(tokens) > 3): return "Huh? This command doesn't exist.\nTry: $V loves/likes/neutral/dislikes/hates <npc name>"
-        npc = CommandHandler.replace_spaces(tokens)
+        npc = tokens[2]
+
         return await NPCCommandHandler.get_npc_loves(npc)
         
 
     #returns a list of items the given NPC likes.
     async def likes_command(tokens):
         if (len(tokens) > 3): return "Huh? \nThis command doesn't exist.\nTry: $V loves/likes/neutral/dislikes/hates <npc name>"
-        npc = CommandHandler.replace_spaces(tokens)
+        npc = tokens[2]
 
         return await NPCCommandHandler.get_npc_likes(npc)
 
 
     #returns a list of items the given NPC is neutral towards.
-    async def neutral_command(tokens):
+    async def neutrals_command(tokens):
         if (len(tokens) > 3): return "Huh? \nThis command doesn't exist.\nTry: $V loves/likes/neutral/dislikes/hates <npc name>"
-        npc = CommandHandler.replace_spaces(tokens)
+        npc = tokens[2]
 
         return await NPCCommandHandler.get_npc_neutrals(npc)
 
@@ -36,7 +42,7 @@ class CommandHandler:
     #returns a list of items the given NPC dislikes
     async def dislikes_command(tokens):
         if (len(tokens) > 3): return "Huh? \nThis command doesn't exist.\nTry: $V loves/likes/neutral/dislikes/hates <npc name>"
-        npc = CommandHandler.replace_spaces(tokens)
+        npc = tokens[2]
 
         return await NPCCommandHandler.get_npc_dislikes(npc)
         
@@ -44,19 +50,18 @@ class CommandHandler:
     #returns a list of items the given NPC hates
     async def hates_command(tokens): 
         if (len(tokens) > 3): return "Huh? \nThis command doesn't exist.\nTry: $V loves/likes/neutral/dislikes/hates <npc name>"
-        npc = CommandHandler.replace_spaces(tokens)
+        npc = tokens[2]
 
         return await NPCCommandHandler.get_npc_hates(npc)
 
 #------------------------------------------------------------------------------
-
 
     #returns a string of items belonging to the category passed in.
     async def list_command(tokens):
         
         #adds all list arguments and then urlifys them for
         #processing
-        category = CommandHandler.replace_spaces(tokens)
+        category = BotCommandHandler.replace_spaces(tokens)
 
         items = await ApiHandler._get_category_members_(category)
 
@@ -80,7 +85,7 @@ class CommandHandler:
         return ('Here is a list of commands: \n' 
                 + '\t- sum <page> to return a short summary of the page: Ex. $V Clint -> returns description of Clint.\n'
                 + '\t- list <category> to list items in that category: Ex. $V list NPCs -> returns a list of all NPC names.\n'
-                + '\t- loves/likes/neutral/dislikes/hates <npc> to return a list of items at that NPCs given preference level: Ex: $V loves Clint -> returns list of items Clint loves.\n'
+                + '\t- loves/likes/neutrals/dislikes/hates <npc> to return a list of items at that NPCs given preference level: Ex: $V loves Clint -> returns list of items Clint loves.\n'
                 )
 
     def replace_spaces(tokens):

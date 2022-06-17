@@ -1,7 +1,8 @@
 import os
 import discord
 from dotenv import load_dotenv
-from objects.CommandHandler import CommandHandler
+from objects.ApiHandler import ApiHandler
+from objects.BotCommandHandler import BotCommandHandler
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -15,6 +16,8 @@ client = discord.Client()
 @client.event
 async def on_ready():
     print("Online!")
+    await ApiHandler._get_NPC_schedule_('lewis')
+    await client.close()
 
 @client.event
 async def on_message(message):
@@ -30,28 +33,31 @@ async def on_message(message):
         arg1 = tokens[1]
 
         if arg1 == 'list':
-            await message.channel.send( await CommandHandler.list_command(tokens) )
+            await message.channel.send( await BotCommandHandler.list_command(tokens) )
         
         elif arg1 == 'sum':
-            await message.channel.send( await CommandHandler.summary_command(tokens) )
+            await message.channel.send( await BotCommandHandler.summary_command(tokens) )
         
         elif (arg1 == 'loves'):
-            await message.channel.send( await CommandHandler.loves_command(tokens) )
+            await message.channel.send( await BotCommandHandler.loves_command(tokens) )
 
         elif (arg1 == 'likes'):
-            await message.channel.send( await CommandHandler.likes_command(tokens) )
+            await message.channel.send( await BotCommandHandler.likes_command(tokens) )
 
         elif (arg1 == 'neutral'):
-            await message.channel.send( await CommandHandler.neutral_command(tokens) )
+            await message.channel.send( await BotCommandHandler.neutrals_command(tokens) )
         
         elif (arg1 == 'dislikes'):
-            await message.channel.send( await CommandHandler.dislikes_command(tokens) )
+            await message.channel.send( await BotCommandHandler.dislikes_command(tokens) )
         
         elif (arg1 == 'hates'):
-            await message.channel.send( await CommandHandler.hates_command(tokens) )
+            await message.channel.send( await BotCommandHandler.hates_command(tokens) )
+
+        elif (arg1 == 'schedule'):
+            await message.channel.send( await BotCommandHandler.schedule_command(tokens) )
 
         elif arg1 == 'help':
-            await message.channel.send(CommandHandler.help_command())
+            await message.channel.send(BotCommandHandler.help_command())
         
         else:
             await message.channel.send("Invalid command.")

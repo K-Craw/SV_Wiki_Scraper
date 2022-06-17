@@ -1,7 +1,4 @@
-from bs4 import BeautifulSoup
-import pandas as pd
 from objects.ApiHandler import ApiHandler
-import requests
 
 NPCS = set([
     'alex', 'elliot', 'harvery', 'sam', 'sebastian', 'shane', 'abigail', 'emily', 'haley',
@@ -10,7 +7,8 @@ NPCS = set([
     'robin', 'sandy', 'vincent', 'willy', 'wizard'
     ])
 
-#NPCCommandHandler performs initial checks on the NPCs and handles the API's reply.
+#NPCCommandHandler performs initial checks on the NPCs and handles the call to the ApiHandler.
+#It returns no such NPC if the command is invalid.
 class NPCCommandHandler:
 
 #---------------------------------------------------------------------------------------------------------
@@ -23,7 +21,7 @@ class NPCCommandHandler:
             loves = await ApiHandler._get_NPC_loves_(npc)
             return loves
         else:
-            return 'no such giftable NPC'
+            return 'No such giftable NPC.'
     
     #checks if the NPC is valid and returns their likes as a string if it is, 
     #if not returns no such giftable NPC.
@@ -32,7 +30,7 @@ class NPCCommandHandler:
             likes = await ApiHandler._get_NPC_likes_(npc)
             return likes
         else:
-            return 'no such giftable NPC'
+            return 'No such giftable NPC.'
 
     #checks if the NPC is valid and returns their neutrals as a string if it is, 
     #if not returns no such giftable NPC.   
@@ -41,7 +39,7 @@ class NPCCommandHandler:
             neutrals = await ApiHandler._get_NPC_neutrals_(npc)
             return neutrals
         else:
-            return 'no such giftable NPC'
+            return 'No such giftable NPC.'
 
     #checks if the NPC is valid and returns their dislikes as a string if it is, 
     #if not returns no such giftable NPC.
@@ -50,7 +48,7 @@ class NPCCommandHandler:
             dislikes = await ApiHandler._get_NPC_dislikes_(npc)
             return dislikes
         else:
-            return 'no such giftable NPC'
+            return 'No such giftable NPC.'
 
     #checks if the NPC is valid and returns their hates as a string if it is, 
     #if not returns no such giftable NPC.       
@@ -59,6 +57,13 @@ class NPCCommandHandler:
             hates = await ApiHandler._get_NPC_hates_(npc)
             return hates
         else:
-            return 'no such giftable NPC'
+            return 'No such giftable NPC.'
 
 #---------------------------------------------------------------------------------------------------------
+
+    async def get_npc_schedule(npc):
+        if (npc.lower() in NPCS):
+            hates = await ApiHandler._get_NPC_schedule_(npc)
+            return hates
+        else:
+            return 'No such giftable NPC.'

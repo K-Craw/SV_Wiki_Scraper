@@ -1,9 +1,9 @@
 Current Goal:
 -Implment querying of NPCs
-    - Return list of things this NPC loves.
     - Change query so that it returns a list of the items instead of returning a string. This way the items
     could be used to handle data. Think with schedule: schedule can be handled and used to check where
     any NPC is at any time.
+-Implement querying NPC location at date/time
 
 
 
