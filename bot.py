@@ -16,8 +16,6 @@ client = discord.Client()
 @client.event
 async def on_ready():
     print("Online!")
-    await ApiHandler._get_NPC_schedule_('lewis')
-    await client.close()
 
 @client.event
 async def on_message(message):

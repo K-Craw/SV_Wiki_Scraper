@@ -7,6 +7,11 @@ NPCS = set([
     'robin', 'sandy', 'vincent', 'willy', 'wizard'
     ])
 
+SEASONS = ['spring', 'summer', 'fall', 'winter']
+
+WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+OTHERS = ['Raining', 'Regular', 'Schedule']
+
 #NPCCommandHandler performs initial checks on the NPCs and handles the call to the ApiHandler.
 #It returns no such NPC if the command is invalid.
 class NPCCommandHandler:
@@ -61,9 +66,9 @@ class NPCCommandHandler:
 
 #---------------------------------------------------------------------------------------------------------
 
-    async def get_npc_schedule(npc):
-        if (npc.lower() in NPCS):
-            hates = await ApiHandler._get_NPC_schedule_(npc)
-            return hates
+    async def get_npc_schedule(npc, season):
+        if (npc.lower() in NPCS and season.lower() in SEASONS):
+            schedule = await ApiHandler._get_NPC_schedule_(npc, season)
+            return schedule
         else:
             return 'No such giftable NPC.'

@@ -14,6 +14,12 @@ NPCS = set([
     'robin', 'sandy', 'vincent', 'willy', 'wizard'
     ])
 
+SEASONS = ['spring', 'summer', 'fall', 'winter']
+
+WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+OTHERS = ['Raining', 'Regular', 'Schedule']
+
+
 ##Handles calls to the MediaWiki API. Returns either requested string data or list of data.
 
 class ApiHandler:
@@ -50,23 +56,24 @@ class ApiHandler:
 #---------------------------------------SCHEDULE------------------------------------------------------------------
 #These functions deal with NPC schedules.
     ##returns the NPC's schedule section wikitext.
-    async def _get_NPC_schedule_(npc):
+    async def _get_NPC_schedule_(npc, season):
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page={npc}&format=json").json()
         html = requested_JSON['parse']['text']['*']
-        soup = BeautifulSoup(html, 'html.parser')
         df = pd.read_html(html)
+        
+        #turns the season into an uppercase season for indexing.
+        season = season.lower()
+        season = season[0].upper() + season[1:len(season)]
 
-        season = 'Summer'
-        seasonCtr = 0
         for data in df:
             keys = data.keys()
-            if ApiHandler.contains_key(keys, season):
-                break
-            else:
-                seasonCtr = seasonCtr + 1
-
-        print (df[10][season])
-        return "Bungus" 
+            if ApiHandler.contains(keys, season):
+                text = data[season][0]
+            
+        returnString = ApiHandler.parse_timetable(text)
+        print(returnString)
+        return returnString
+        return "No such NPC/season. Check your command."
 
 #----------------------------------------GIFTS-------------------------------------------------------------
 #These methods return lists of NPCs gifts at different levels of preference.
@@ -113,8 +120,27 @@ class ApiHandler:
     def replace_spaces(content):
         return content.replace(' ', '%20')
 
-    def contains_key(keys, target):
+    def contains(keys, target):
         for key in keys:
             if key == target:
                 return True
         return False
+
+    def parse_timetable(text):
+        splitText = text.split()
+        returnString = ""
+
+        first = True
+        for word in splitText:
+            if (ApiHandler.contains(OTHERS, word) and first) or (ApiHandler.contains(WEEKDAYS, word) and first):
+                returnString += word.upper() 
+                first = False
+            elif (ApiHandler.contains(OTHERS, word) and first) or (ApiHandler.contains(WEEKDAYS, word) and not first):
+                returnString += "\n" + word.upper()
+            elif word == 'Time' or word == 'Location':
+                None
+            elif word[0].isnumeric() and len(word) > 2:
+                returnString += '\n\t\t-' + word
+            else: 
+                returnString += " " + word
+        return returnString

@@ -8,10 +8,11 @@ from objects.NPCCommandHandler import NPCCommandHandler
 class BotCommandHandler:
 
     async def schedule_command(tokens):
-        if (len(tokens) > 3): return "Huh? This command doesn't exist.\nTry: $V schedule <npc name>"
-        npc = tokens[2];
+        if (len(tokens) > 4): return "Huh? This command doesn't exist.\nTry: $V schedule <npc name> <season>"
+        npc = tokens[2]
+        season = tokens[3]
 
-        return await NPCCommandHandler.get_npc_schedule(npc)
+        return await NPCCommandHandler.get_npc_schedule(npc, season)
 
 #------------------------------------------------------------------------------
 #These functions take an NPC and returns the gifts they like/dislikes/neutral/etc.
@@ -86,6 +87,7 @@ class BotCommandHandler:
                 + '\t- sum <page> to return a short summary of the page: Ex. $V Clint -> returns description of Clint.\n'
                 + '\t- list <category> to list items in that category: Ex. $V list NPCs -> returns a list of all NPC names.\n'
                 + '\t- loves/likes/neutrals/dislikes/hates <npc> to return a list of items at that NPCs given preference level: Ex: $V loves Clint -> returns list of items Clint loves.\n'
+                + '\t- schedule <npc> <sesason> to return the NPCs schedule for each day of the given season. Ex: $V schedule lewis summer.'
                 )
 
     def replace_spaces(tokens):

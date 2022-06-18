@@ -4,6 +4,13 @@ Current Goal:
     could be used to handle data. Think with schedule: schedule can be handled and used to check where
     any NPC is at any time.
 -Implement querying NPC location at date/time
+    - format: $V location <NPC> <Season> <Day> <Time>
+    - $V location lewis Spring 19 11:30am
+    - Probably going to have to parse this directly out of all the text contained within the correct table,
+        since theres no easy way to query out what day/time each table refers to. Honestly easier to parse
+        directly out of test since the text is formulaic.
+        -formula: <day of week> Time Location <time> <location> <time> <location> .... <day of week> Time Location....
+        Could parse the info out of this pretty easily.
 
 
 
@@ -25,4 +32,11 @@ Could implement?
     - Location @ date/time
     - recipe checks
     - general wiki checks
+
+
+----------------------------------------------------------------------------------------------------
+Noted bugs:
+    - Penny returns her spring schedule weirdly.
+
+
     
