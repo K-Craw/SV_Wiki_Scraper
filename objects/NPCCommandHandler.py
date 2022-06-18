@@ -1,4 +1,5 @@
 from objects.ApiHandler import ApiHandler
+from objects.NpcSchedules.LewisHandler import LewisHandler
 
 NPCS = set([
     'alex', 'elliot', 'harvery', 'sam', 'sebastian', 'shane', 'abigail', 'emily', 'haley',
@@ -66,9 +67,13 @@ class NPCCommandHandler:
 
 #---------------------------------------------------------------------------------------------------------
 
-    async def get_npc_schedule(npc, season):
-        if (npc.lower() in NPCS and season.lower() in SEASONS):
-            schedule = await ApiHandler._get_NPC_schedule_(npc, season)
+    async def get_npc_schedule(npc, season, weekday):
+        lowerNPC = npc.lower()
+        if (lowerNPC in NPCS and season.lower() in SEASONS):
+            if (lowerNPC == 'lewis'):
+                schedule = await LewisHandler.get_schedule(season, weekday)
+            else:
+                schedule = await ApiHandler._get_NPC_schedule_(lowerNPC, season, weekday)
             return schedule
         else:
             return 'No such giftable NPC.'

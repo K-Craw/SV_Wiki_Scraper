@@ -56,7 +56,7 @@ class ApiHandler:
 #---------------------------------------SCHEDULE------------------------------------------------------------------
 #These functions deal with NPC schedules.
     ##returns the NPC's schedule section wikitext.
-    async def _get_NPC_schedule_(npc, season):
+    async def _get_NPC_schedule_(npc, season, weekday):
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page={npc}&format=json").json()
         html = requested_JSON['parse']['text']['*']
         df = pd.read_html(html)
@@ -69,8 +69,9 @@ class ApiHandler:
             keys = data.keys()
             if ApiHandler.contains(keys, season):
                 text = data[season][0]
-            
-        returnString = ApiHandler.parse_timetable(text)
+        
+        print(text + '\n\n')
+        returnString = ApiHandler.parse_currentWeekday(text, weekday.lower())
         print(returnString)
         return returnString
         return "No such NPC/season. Check your command."
@@ -143,4 +144,35 @@ class ApiHandler:
                 returnString += '\n\t\t-' + word
             else: 
                 returnString += " " + word
+        return returnString
+
+    def parse_currentWeekday(text, weekday):
+        splitText = text.split()
+        returnString = ""
+
+        lastSeen = False
+        first = True
+        for word in splitText:
+            if word.lower() == weekday and first:
+                lastSeen = True
+                returnString += word.upper()
+                first = False
+
+            elif word.lower() == weekday and not first:
+                lastSeen = True
+                returnString += '\n' + word.upper()
+
+            elif word in WEEKDAYS and word.lower() != weekday:
+                lastSeen = False
+
+            elif lastSeen:
+                if word[0].isnumeric() and len(word) > 2:
+                    returnString += '\n\t\t-' + word
+                elif word == 'Time' or word == 'Location':
+                    None
+                else: 
+                    returnString += " " + word
+            else:
+                None
+
         return returnString

@@ -8,11 +8,12 @@ from objects.NPCCommandHandler import NPCCommandHandler
 class BotCommandHandler:
 
     async def schedule_command(tokens):
-        if (len(tokens) > 4): return "Huh? This command doesn't exist.\nTry: $V schedule <npc name> <season>"
+        if (len(tokens) > 5): return "Huh? This command doesn't exist.\nTry: $V schedule <npc name> <season>"
         npc = tokens[2]
         season = tokens[3]
+        weekday = tokens[4]
 
-        return await NPCCommandHandler.get_npc_schedule(npc, season)
+        return await NPCCommandHandler.get_npc_schedule(npc, season, weekday)
 
 #------------------------------------------------------------------------------
 #These functions take an NPC and returns the gifts they like/dislikes/neutral/etc.

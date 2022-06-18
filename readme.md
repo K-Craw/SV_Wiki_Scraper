@@ -37,6 +37,9 @@ Could implement?
 ----------------------------------------------------------------------------------------------------
 Noted bugs:
     - Penny returns her spring schedule weirdly.
+    - Krobus does not return likes or other gifts correctly.
+    - 
+
 
 
     
