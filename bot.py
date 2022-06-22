@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from objects.ApiHandler import ApiHandler
 from objects.BotCommandHandler import BotCommandHandler
 from objects.NpcSchedules.AbigailHandler import AbigailHandler
+from objects.NpcSchedules.PennyHandler import PennyHandler
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -16,7 +17,7 @@ client = discord.Client()
 #waits for client to run 
 @client.event
 async def on_ready():
-    print('Online!')
+    print("Online!")
 
 @client.event
 async def on_message(message):

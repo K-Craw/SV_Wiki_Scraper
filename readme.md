@@ -35,6 +35,12 @@ Could implement?
     - recipe checks
     - general wiki checks
 
+----------------------------------------------------------------------------------------------------
+Design:
+Bot.py -> CommandHandler.py 
+CommandHandler.py -> NPCHandler.py or ApiHandler.py
+NPCHandler.py return or -> NPCSchedules
+ApiHandler return.
 
 ----------------------------------------------------------------------------------------------------
 Noted bugs:
