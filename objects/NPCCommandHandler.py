@@ -2,7 +2,6 @@ from logging import StreamHandler
 from objects.ApiHandler import ApiHandler
 from objects.NpcSchedules.AbigailHandler import AbigailHandler
 from objects.NpcSchedules.LewisHandler import LewisHandler
-from objects.NpcSchedules.SamHandler import SamHandler
 
 
 NPCS = set([
@@ -78,8 +77,6 @@ class NPCCommandHandler:
                 schedule = await LewisHandler.get_schedule(season, weekday)
             elif (lowerNPC == 'abigail'):
                 schedule = await AbigailHandler.get_schedule(season, weekday)
-            elif (lowerNPC == 'sam'):
-                schedile = await SamHandler.get_schedule(season, weekday)
             else:
                 schedule = await ApiHandler._get_NPC_schedule_(lowerNPC, season, weekday)
             return schedule
