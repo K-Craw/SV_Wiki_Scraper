@@ -3,6 +3,7 @@ import discord
 from dotenv import load_dotenv
 from objects.ApiHandler import ApiHandler
 from objects.BotCommandHandler import BotCommandHandler
+from objects.NpcSchedules.AbigailHandler import AbigailHandler
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -15,7 +16,8 @@ client = discord.Client()
 #waits for client to run 
 @client.event
 async def on_ready():
-    print("Online!")
+    await AbigailHandler.get_schedule('Summer', 'Saturday')
+    await client.close()
 
 @client.event
 async def on_message(message):

@@ -39,8 +39,8 @@ Noted bugs:
     - Penny's schedule returns nothing.
     -Abigail spring wednesday, thursday, sunday returns an index error on
         -if word[0].isnumeric() and word[2] == ':' or word[1] == ':'
-    - Alex returns an empty message on schedule.
-    
+    - Alex returns an empty message on schedule where there are regular schedule days.
+    -elliot throws error on '['parse']' JSON parse when schedule is retrieved.
     - Krobus does not return likes or other gifts correctly.
     - Sam and Abigail parse schedules incorrectly due to the regular schedule inclusion.
 
