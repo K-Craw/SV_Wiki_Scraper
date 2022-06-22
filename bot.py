@@ -16,8 +16,7 @@ client = discord.Client()
 #waits for client to run 
 @client.event
 async def on_ready():
-    await AbigailHandler.get_schedule('Summer', 'Saturday')
-    await client.close()
+    print('Online!')
 
 @client.event
 async def on_message(message):

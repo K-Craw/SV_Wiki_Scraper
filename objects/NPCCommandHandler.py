@@ -78,7 +78,7 @@ class NPCCommandHandler:
                 schedule = await LewisHandler.get_schedule(season, weekday)
             elif (lowerNPC == 'abigail'):
                 schedule = await AbigailHandler.get_schedule(season, weekday)
-            elif (lowerNPC == 'Sam'):
+            elif (lowerNPC == 'sam'):
                 schedile = await SamHandler.get_schedule(season, weekday)
             else:
                 schedule = await ApiHandler._get_NPC_schedule_(lowerNPC, season, weekday)

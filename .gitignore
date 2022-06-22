@@ -1,4 +1,5 @@
 .env
 objects/__pycache__/
+objects/NPCSchedules/__pycache__/
 tests/__pycache__/
 .pyc
