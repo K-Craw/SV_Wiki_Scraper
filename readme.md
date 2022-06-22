@@ -13,9 +13,8 @@ Current Goal:
         Could parse the info out of this pretty easily.
 
 NPCS THAT NEED SCHEDULE IMPLEMNTED:
-    -All except abigail + lewis.
-
-
+    -All except abigail, lewis, penny, haley.
+    
 To be implemented/plans:
     -Need to fix errors with spacing.
     -need to come up with more complete/better system design.
@@ -44,15 +43,10 @@ ApiHandler return.
 
 ----------------------------------------------------------------------------------------------------
 Noted bugs:
-    - Penny's schedule returns nothing.
-    -Abigail spring wednesday, thursday, sunday returns an index error on
-        -if word[0].isnumeric() and word[2] == ':' or word[1] == ':'
-    - Alex returns an empty message on schedule where there are regular schedule days.
-    -elliot throws error on '['parse']' JSON parse when schedule is retrieved.
-    - Krobus does not return likes or other gifts correctly.
+    - Krobus does not return likes or other gifts correctly due to his section order.
     - Sam and Abigail parse schedules incorrectly due to the regular schedule inclusion.
-    -Penny's schedule handler parses the community center restored/not restored sections in winter incorrectly.
-    ---candjcnaldnvcjka
+    - Penny's schedule handler parses the community center restored/not restored sections in winter incorrectly.
+    - Haley's schedule handler parses the multi-day sections incorrectly.
 
 
 
