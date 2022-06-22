@@ -51,6 +51,7 @@ Noted bugs:
     -elliot throws error on '['parse']' JSON parse when schedule is retrieved.
     - Krobus does not return likes or other gifts correctly.
     - Sam and Abigail parse schedules incorrectly due to the regular schedule inclusion.
+    -Penny's schedule handler parses the community center restored/not restored sections in winter incorrectly.
 
 
 
