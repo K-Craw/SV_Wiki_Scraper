@@ -12,6 +12,8 @@ Current Goal:
         -formula: <day of week> Time Location <time> <location> <time> <location> .... <day of week> Time Location....
         Could parse the info out of this pretty easily.
 
+NPCS THAT NEED SCHEDULE IMPLEMNTED:
+    -All except abigail + lewis.
 
 
 To be implemented/plans:

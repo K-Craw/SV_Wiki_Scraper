@@ -81,4 +81,4 @@ class NPCCommandHandler:
                 schedule = await ApiHandler._get_NPC_schedule_(lowerNPC, season, weekday)
             return schedule
         else:
-            return 'No such giftable NPC.'
+            return 'No such NPC.'
