@@ -15,7 +15,7 @@ class HaleyHandler:
 #----------------------------------SCHEDULE METHODS----------------------------------------------------------------
     #Calls the API handler to get the schedule and finds the correct season to pass to the weekday parser.
     async def get_schedule(season, weekday):
-        requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=penny&format=json").json()
+        requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=Haley&format=json").json()
         html = requested_JSON['parse']['text']['*']
         df = pd.read_html(html)
         
@@ -26,7 +26,7 @@ class HaleyHandler:
         #Gets the plain text from the dataframe containing the correct season.
         for data in df:
             keys = data.keys()
-            if HaleyHandler.contains(keys, season):
+            if ApiHandler.contains(keys, season):
                 text = data[season][0]
         
         returnString = HaleyHandler.parse_currentWeekday(text, weekday.lower())
