@@ -65,6 +65,7 @@ class ApiHandler:
         season = season.lower()
         season = season[0].upper() + season[1:len(season)]
 
+        #for each section in the frame of schedule sections check if it is the right season.
         for data in df:
             keys = data.keys()
             if ApiHandler.contains(keys, season):
@@ -118,15 +119,18 @@ class ApiHandler:
 
 #--------------------------------------MISC------------------------------------------------------------------------------------
 
+    #replace spaces to create a url string.
     def replace_spaces(content):
         return content.replace(' ', '%20')
 
+    ##check if the key is contained in a list or DF.
     def contains(keys, target):
         for key in keys:
             if key == target:
                 return True
         return False
 
+    #default parse timetable function (to be removed).
     def parse_timetable(text):
         splitText = text.split()
         returnString = ""
@@ -146,6 +150,7 @@ class ApiHandler:
                 returnString += " " + word
         return returnString
 
+    #default parse weekday function (to be removed).
     def parse_currentWeekday(text, weekday):
         splitText = text.split()
         returnString = ""
