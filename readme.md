@@ -47,6 +47,7 @@ Noted bugs:
     - Sam and Abigail parse schedules incorrectly due to the regular schedule inclusion.
     - Penny's schedule handler parses the community center restored/not restored sections in winter incorrectly.
     - Haley's schedule handler parses the multi-day sections incorrectly.
+    - Leah's normal schedule needs to return beach bridge repaired and not repaired.
 
 
 
