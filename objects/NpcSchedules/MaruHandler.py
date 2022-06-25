@@ -9,11 +9,11 @@ SEASONS = set(['spring', 'summer', 'fall', 'winter'])
 WEEKDAYS = set(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
 
 
-class LewisHandler:
+class MaruHandler:
 
 #----------------------------------SCHEDULE----------------------------------------------------------------
     async def get_schedule(season, weekday):
-        requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=lewis&format=json").json()
+        requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=maru&format=json").json()
         html = requested_JSON['parse']['text']['*']
         df = pd.read_html(html)
         
@@ -26,7 +26,7 @@ class LewisHandler:
             if ApiHandler.contains(keys, season):
                 text = data[season][0]
         
-        returnString = LewisHandler.parse_currentWeekday(text, weekday.lower())
+        returnString = MaruHandler.parse_currentWeekday(text, weekday.lower())
         return returnString
         return "No such NPC/season. Check your command."
 
@@ -51,13 +51,13 @@ class LewisHandler:
                 lastSeen = False
 
             elif lastSeen:
-
-                if word[0].isnumeric() and word[2] == ':' or word[1] == ':':
-                    returnString += '\n\t\t-' + word
-                elif word == 'Time' or word == 'Location':
-                    None
-                else: 
-                    returnString += " " + word
+                if (len(word) >= 3):
+                    if word[0].isnumeric() and word[1] == ':' or word[2] == ':':
+                        returnString += '\n\t\t-' + word
+                    elif word == 'Time' or word == 'Location':
+                        None
+                    else: 
+                        returnString += " " + word
 
             else:
                 None
