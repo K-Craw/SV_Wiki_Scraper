@@ -3,6 +3,7 @@ from objects.ApiHandler import ApiHandler
 from objects.NpcSchedules.AbigailHandler import AbigailHandler
 from objects.NpcSchedules.EmilyHandler import EmilyHandler
 from objects.NpcSchedules.HaleyHandler import HaleyHandler
+from objects.NpcSchedules.LeahHandler import LeahHandler
 from objects.NpcSchedules.LewisHandler import LewisHandler
 from objects.NpcSchedules.PennyHandler import PennyHandler
 
@@ -86,6 +87,8 @@ class NPCCommandHandler:
                 schedule = await HaleyHandler.get_schedule(season, weekday)
             elif (lowerNPC == 'emily'):
                 schedule = await EmilyHandler.get_schedule(season, weekday)
+            elif (lowerNPC == 'leah'):
+                schedule = await LeahHandler.get_schedule(season, weekday)
             else:
                 schedule = await ApiHandler._get_NPC_schedule_(lowerNPC, season, weekday)
             return schedule
