@@ -37,10 +37,10 @@ async def on_message(message):
         tokens = message.content.split(' ')
         arg1 = tokens[1]
 
-        if arg1 == 'list':
+        if (arg1 == 'list'):
             await message.channel.send( await BotCommandHandler.list_command(tokens) )
         
-        elif arg1 == 'sum':
+        elif (arg1 == 'sum'):
             await message.channel.send( await BotCommandHandler.summary_command(tokens) )
         
         elif (arg1 == 'loves'):
@@ -61,7 +61,7 @@ async def on_message(message):
         elif (arg1 == 'schedule'):
             await message.channel.send( await BotCommandHandler.schedule_command(tokens) )
 
-        elif arg1 == 'help':
+        elif (arg1 == 'help'):
             await message.channel.send(BotCommandHandler.help_command())
         
         else:
