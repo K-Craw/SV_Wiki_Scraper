@@ -51,6 +51,7 @@ Noted bugs:
     - Clint's schedule on friday when the community centre is restored doesn't get accessed.
     - Evelyn's schedule does not return community center repaired options.
     - George's schedule doesn't return his summer friday, will need to make an exception.
+    - Gus's schedule doesn't return community center repaired tuesday.
 
 
 

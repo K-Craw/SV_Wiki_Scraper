@@ -28,7 +28,6 @@ class LeahHandler:
             keys = data.keys()
             if ApiHandler.contains(keys, season):
                 text = data[season][0]
-                print(text)
         
         returnString = LeahHandler.parse_currentWeekday(text, weekday.lower())
         return returnString
