@@ -44,17 +44,19 @@ class LeahHandler:
         #gets the index of the start and passes it to the return handler to build the output.
         found = False
         for idx, word in enumerate(splitText):
+            #if the word is a day or is a day ending in a comma.
             if (word in WEEKDAYS)or (word[0: len(word) -1] in WEEKDAYS):
                 daySet = LeahHandler.parse_dayset(splitText, idx)
-
+            #if the set now contains the weeekday we're looking for break out
+            #and set found to true;
             if (weekday in daySet): 
                 startIdx = idx
                 found = True
                 break
         
+        #if the requested weekday wasn't found, get the normal schedule.
         if (not found):
             for idx, word in enumerate(splitText):
-                print(word)
                 if (word == 'Normal'):
                     daySet = LeahHandler.parse_dayset(splitText, idx)
 
@@ -112,6 +114,7 @@ class LeahHandler:
                 elif (word in WEEKDAYS) or (word[0:len(word) -1] in WEEKDAYS):
                     break
                 else:
+                    #if the word is a time create a new time line.
                     if word[0].isnumeric():
                         if (len(word) > 1) and word[1] == ':': 
                             returnString += '\n\t\t-' + word

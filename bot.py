@@ -3,8 +3,9 @@ import discord
 from dotenv import load_dotenv
 from objects.ApiHandler import ApiHandler
 from objects.BotCommandHandler import BotCommandHandler
-from objects.NpcSchedules.CarolineHandler import CarolineHandler
+from objects.NpcSchedules.EvelynHandler import EvelynHandler
 from objects.NpcSchedules.ClintHandler import ClintHandler
+from objects.NpcSchedules.GeorgeHandler import GeorgeHandler
 from objects.NpcSchedules.MaruHandler import MaruHandler
 
 load_dotenv()
@@ -18,7 +19,7 @@ client = discord.Client()
 #waits for client to run 
 @client.event
 async def on_ready():
-    print(await ClintHandler.get_schedule('Spring', 'Friday'))
+    print(await GeorgeHandler.get_schedule('Summer', 'Sunday'))
     print("Online!")
     await client.close()
 

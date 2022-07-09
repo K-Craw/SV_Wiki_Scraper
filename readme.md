@@ -29,7 +29,7 @@ Could implement?
     - Compare
     - Season check
     - Construction check
-    - Likes/Dislikes
+    - Likes/Dislikes (done)
     - Location @ date/time
     - recipe checks
     - general wiki checks
@@ -48,6 +48,9 @@ Noted bugs:
     - Penny's schedule handler parses the community center restored/not restored sections in winter incorrectly.
     - Haley's schedule handler parses the multi-day sections incorrectly.
     - Leah's normal schedule needs to return beach bridge repaired and not repaired.
+    - Clint's schedule on friday when the community centre is restored doesn't get accessed.
+    - Evelyn's schedule does not return community center repaired options.
+    - George's schedule doesn't return his summer friday, will need to make an exception.
 
 
 
