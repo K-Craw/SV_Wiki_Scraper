@@ -84,8 +84,8 @@ SCHEDULE HANDLERS
 Pam
 Penny -
 Robin -
-Sam 
-Sebastian
+Sam -
+Sebastian -
 Shane
 Vincent
 Willy
