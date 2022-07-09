@@ -12,11 +12,11 @@ WEEKDAYS = set(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturda
 
 #Abigail handler parses her schedule correctly.
 
-class CarolineHandler:
+class JasHandler:
 #----------------------------------SCHEDULE METHODS----------------------------------------------------------------
     #Calls the API handler to get the schedule and finds the correct season to pass to the weekday parser.
     async def get_schedule(season, weekday):
-        requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=caroline&format=json").json()
+        requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=jas&format=json").json()
         html = requested_JSON['parse']['text']['*']
         df = pd.read_html(html)
         #turns the season into an uppercase season for indexing.
@@ -35,13 +35,14 @@ class CarolineHandler:
                 timeTxt = data[weekday]
                 locationTxt = data[weekday + ".1"]
                 found = True
-                returnString = CarolineHandler.build_return_schedule(timeTxt, locationTxt, weekday)
+                returnString = JasHandler.build_return_schedule(timeTxt, locationTxt, weekday)
+                break
             elif ApiHandler.contains(keys, season):
                 text = data[season]
                 timeTxt = data[season]
                 locationTxt = data[season + ".1"]
                 found = True
-                returnString = CarolineHandler.build_return_schedule(timeTxt, locationTxt, weekday)
+                returnString = JasHandler.build_return_schedule(timeTxt, locationTxt, season)
 
         #if the season is not found, then instead searches for regular schedule.
         if (not found):
@@ -50,7 +51,7 @@ class CarolineHandler:
                 if ApiHandler.contains(keys, 'Regular Schedule'):
                     timeTxt = data['Regular Schedule']
                     locationTxt = data['Regular Schedule.1']
-                    returnString = CarolineHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
+                    returnString = JasHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
 
         return returnString
         return "No such NPC/season. Check your command."
