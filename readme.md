@@ -56,7 +56,7 @@ Noted bugs:
     - Alex's schedule returns wednesday's phrasing with "6 hearts with Haley" weirdly.
     - Elliot's schedule almost works, skips random words on hearts with leah, like alex with haley.
         Also needs to return multiple, like where two fridays are included in multiple hearts with leah.
-    -
+    - Robin's schedule doesn't return monday community centre restored + regular.
 
 -----------------------------------------------------------------------------------------------------
 SCHEDULE HANDLERS
@@ -83,7 +83,7 @@ SCHEDULE HANDLERS
  Maru -
 Pam
 Penny -
-Robin
+Robin -
 Sam 
 Sebastian
 Shane
