@@ -52,6 +52,39 @@ Noted bugs:
     - Evelyn's schedule does not return community center repaired options.
     - George's schedule doesn't return his summer friday, will need to make an exception.
     - Gus's schedule doesn't return community center repaired tuesday.
+    - Jas handler incomplete, page is really badly formatted on the wiki.
+
+-----------------------------------------------------------------------------------------------------
+SCHEDULE HANDLERS
+ Alex
+ Abigail -
+ Caroline -
+ Clint -
+ Demetrius
+ Elliot
+ Emily -
+ Evelyn -
+ George -
+ Gus -
+ Haley -
+ Harvey
+ Jas -
+ Jodi -
+ Kent
+ Leah -
+ Leo
+ Lewis -
+ Linus 
+ Marnie
+ Maru -
+Pam
+Penny -
+Robin
+Sam 
+Sebastian
+Shane
+Vincent
+Willy
 
 
 
