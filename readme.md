@@ -53,10 +53,11 @@ Noted bugs:
     - George's schedule doesn't return his summer friday, will need to make an exception.
     - Gus's schedule doesn't return community center repaired tuesday.
     - Jas handler incomplete, page is really badly formatted on the wiki.
+    - Alex's schedule returns wednesday's phrasing with "6 hearts with Haley" weirdly.
 
 -----------------------------------------------------------------------------------------------------
 SCHEDULE HANDLERS
- Alex
+ Alex -
  Abigail -
  Caroline -
  Clint -
