@@ -6,6 +6,7 @@ from objects.NpcSchedules.DemetriusHandler import DemetriusHandler
 from objects.NpcSchedules.ElliottHandler import ElliottHandler
 from objects.NpcSchedules.HarveyHandler import HarveyHandler
 from objects.NpcSchedules.LinusHandler import LinusHandler
+from objects.NpcSchedules.RobinHandler import RobinHandler
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -18,7 +19,7 @@ client = discord.Client()
 #waits for client to run 
 @client.event
 async def on_ready():
-    print(await LinusHandler.get_schedule('Summer', 'Saturday'))
+    print(await RobinHandler.get_schedule('Summer', 'Monday'))
     print("Online!")
     await client.close()
 
