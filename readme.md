@@ -3,17 +3,6 @@ Current Goal:
     - Change query so that it returns a list of the items instead of returning a string. This way the items
     could be used to handle data. Think with schedule: schedule can be handled and used to check where
     any NPC is at any time.
--Implement querying NPC location at date/time
-    - format: $V location <NPC> <Season> <Day> <Time>
-    - $V location lewis Spring 19 11:30am
-    - Probably going to have to parse this directly out of all the text contained within the correct table,
-        since theres no easy way to query out what day/time each table refers to. Honestly easier to parse
-        directly out of test since the text is formulaic.
-        -formula: <day of week> Time Location <time> <location> <time> <location> .... <day of week> Time Location....
-        Could parse the info out of this pretty easily.
-
-NPCS THAT NEED SCHEDULE IMPLEMNTED:
-    -All except abigail, lewis, penny, haley.
     
 To be implemented/plans:
     -Need to fix errors with spacing.
@@ -30,7 +19,7 @@ Could implement?
     - Season check
     - Construction check
     - Likes/Dislikes (done)
-    - Location @ date/time
+    - Location @ date/time (almost done)
     - recipe checks
     - general wiki checks
 
@@ -44,15 +33,11 @@ ApiHandler return.
 ----------------------------------------------------------------------------------------------------
 Noted bugs:
     - Krobus does not return likes or other gifts correctly due to his section order.
-    - Sam and Abigail parse schedules incorrectly due to the regular schedule inclusion.
-    - Penny's schedule handler parses the community center restored/not restored sections in winter incorrectly.
-    - Haley's schedule handler parses the multi-day sections incorrectly.
     - Leah's normal schedule needs to return beach bridge repaired and not repaired.
     - Clint's schedule on friday when the community centre is restored doesn't get accessed.
     - Evelyn's schedule does not return community center repaired options.
     - George's schedule doesn't return his summer friday, will need to make an exception.
     - Gus's schedule doesn't return community center repaired tuesday.
-    - Jas handler incomplete, page is really badly formatted on the wiki.
     - Alex's schedule returns wednesday's phrasing with "6 hearts with Haley" weirdly.
     - Elliot's schedule almost works, skips random words on hearts with leah, like alex with haley.
         Also needs to return multiple, like where two fridays are included in multiple hearts with leah.
@@ -88,7 +73,7 @@ Sam -
 Sebastian -
 Shane
 Vincent -
-Willy
+Willy -
 
 
 
