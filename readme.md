@@ -81,7 +81,7 @@ SCHEDULE HANDLERS
  Linus -
  Marnie
  Maru -
-Pam
+Pam -
 Penny -
 Robin -
 Sam -

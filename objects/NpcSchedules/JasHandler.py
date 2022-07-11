@@ -30,19 +30,18 @@ class JasHandler:
         #searches for the correct season in the data.
         for data in df:
             keys = data.keys()
-            if ApiHandler.contains(keys, weekday):
-                text = data[weekday]
-                timeTxt = data[weekday]
-                locationTxt = data[weekday + ".1"]
+            if (JasHandler.contains(keys[0], weekday) and not JasHandler.contains(keys[0], "the")):
+                timeTxt = data[keys[0]]
+                locationTxt = data[keys[1]]
                 found = True
-                returnString = JasHandler.build_return_schedule(timeTxt, locationTxt, weekday)
+                returnString = JasHandler.build_return_schedule(timeTxt, locationTxt, keys[0])
                 break
-            elif ApiHandler.contains(keys, season):
-                text = data[season]
-                timeTxt = data[season]
-                locationTxt = data[season + ".1"]
+            if JasHandler.contains(keys[0], season):
+                timeTxt = data[keys[0]]
+                locationTxt = data[keys[1]]
                 found = True
-                returnString = JasHandler.build_return_schedule(timeTxt, locationTxt, season)
+                returnString = JasHandler.build_return_schedule(timeTxt, locationTxt, keys[0])
+                break 
 
         #if the season is not found, then instead searches for regular schedule.
         if (not found):
@@ -73,4 +72,30 @@ class JasHandler:
         return returnTxt
         return returnString
     
+    def parse_currentWeekday(text, weekday):
+        splitText = text.split()
+        daySet = set([])
+        startIdx = 0
+
+        #checks if each section contains the current weekday by calling parse_dayset each time it finds a set.
+        #gets the index of the start and passes it to the return handler to build the output.
+        for idx, word in enumerate(splitText):
+            if (word in WEEKDAYS)or (word[0: len(word) -1] in WEEKDAYS):
+                daySet = JasHandler.parse_dayset(splitText, idx)
+
+            if (weekday in daySet): 
+                startIdx = idx
+                break
+
+        return JasHandler.build_return_schedule(splitText, startIdx)
 #---------------------------------------------------------------------------------------------------
+
+    def contains(text, wordToFind):
+        text = text.split(" ")
+        foundWord = False
+        for word in text:
+            if word == wordToFind or word[0:len(word) - 1] == wordToFind:
+                foundWord = True
+            if (foundWord and word.isnumeric()):
+                return False
+        return foundWord
