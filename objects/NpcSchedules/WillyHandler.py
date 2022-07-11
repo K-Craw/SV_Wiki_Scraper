@@ -12,11 +12,11 @@ WEEKDAYS = set(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturda
 
 #Abigail handler parses her schedule correctly.
 
-class VincentHandler:
+class WillyHandler:
 #----------------------------------SCHEDULE METHODS----------------------------------------------------------------
     #Calls the API handler to get the schedule and finds the correct season to pass to the weekday parser.
     async def get_schedule(season, weekday):
-        requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=vincent&format=json").json()
+        requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=willy&format=json").json()
         html = requested_JSON['parse']['text']['*']
         df = pd.read_html(html)
         #turns the season into an uppercase season for indexing.
@@ -29,21 +29,21 @@ class VincentHandler:
 
         for data in df: 
             keys = data.keys()
-            if VincentHandler.contains(keys[0], season):
+            if WillyHandler.contains(keys[0], season):
                 timeTxt = data[keys[0]]
                 locationTxt = data[keys[1]]
                 found = True
-                returnString = VincentHandler.build_return_schedule(timeTxt, locationTxt, keys[0])
+                returnString = WillyHandler.build_return_schedule(timeTxt, locationTxt, keys[0])
                 break 
 
         #searches for the correct season in the data.
         for data in df:
             keys = data.keys()
-            if (VincentHandler.contains(keys[0], weekday) and not VincentHandler.contains(keys[0], "the")):
+            if (WillyHandler.contains(keys[0], weekday) and not WillyHandler.contains(keys[0], "the")):
                 timeTxt = data[keys[0]]
                 locationTxt = data[keys[1]]
                 found = True
-                returnString = VincentHandler.build_return_schedule(timeTxt, locationTxt, keys[0])
+                returnString = WillyHandler.build_return_schedule(timeTxt, locationTxt, keys[0])
                 break
             
 
@@ -54,7 +54,7 @@ class VincentHandler:
                 if ApiHandler.contains(keys, 'Regular Schedule'):
                     timeTxt = data['Regular Schedule']
                     locationTxt = data['Regular Schedule.1']
-                    returnString = VincentHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
+                    returnString = WillyHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
 
         return returnString
         return "No such NPC/season. Check your command."
@@ -85,13 +85,13 @@ class VincentHandler:
         #gets the index of the start and passes it to the return handler to build the output.
         for idx, word in enumerate(splitText):
             if (word in WEEKDAYS)or (word[0: len(word) -1] in WEEKDAYS):
-                daySet = VincentHandler.parse_dayset(splitText, idx)
+                daySet = WillyHandler.parse_dayset(splitText, idx)
 
             if (weekday in daySet): 
                 startIdx = idx
                 break
 
-        return VincentHandler.build_return_schedule(splitText, startIdx)
+        return WillyHandler.build_return_schedule(splitText, startIdx)
 #---------------------------------------------------------------------------------------------------
 
     def contains(text, wordToFind):
