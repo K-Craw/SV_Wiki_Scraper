@@ -6,6 +6,7 @@ from objects.NpcSchedules.JasHandler import JasHandler
 from objects.NpcSchedules.PamHandler import PamHandler
 from objects.NpcSchedules.SamHandler import SamHandler
 from objects.NpcSchedules.SebastianHandler import SebastianHandler
+from objects.NpcSchedules.VincentHandler import VincentHandler
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -18,7 +19,7 @@ client = discord.Client()
 #waits for client to run 
 @client.event
 async def on_ready():
-    print(await JasHandler.get_schedule('Winter', 'Monday'))
+    print(await VincentHandler.get_schedule('Winter', 'Monday'))
     print("Online!")
     await client.close()
 
