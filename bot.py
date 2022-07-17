@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from objects.BotCommandHandler import BotCommandHandler
 from objects.NpcSchedules.JasHandler import JasHandler
 from objects.NpcSchedules.LeoHandler import LeoHandler
+from objects.NpcSchedules.ShaneHandler import ShaneHandler
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -16,7 +17,7 @@ client = discord.Client()
 #waits for client to run 
 @client.event
 async def on_ready():
-    print(await LeoHandler.get_schedule('Fall', 'Tueaday'))
+    print(await ShaneHandler.get_schedule('Fall', 'Sunday'))
     print("Online!")
     await client.close()
 
