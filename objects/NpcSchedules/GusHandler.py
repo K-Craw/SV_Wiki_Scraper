@@ -19,6 +19,7 @@ class GusHandler:
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=gus&format=json").json()
         html = requested_JSON['parse']['text']['*']
         df = pd.read_html(html)
+        returnString = ""
         #turns the season into an uppercase season for indexing.
         season = season.lower()
         season = season[0].upper() + season[1:len(season)]
@@ -42,12 +43,19 @@ class GusHandler:
 
         #if the season is not found, then instead searches for regular schedule.
         if (not found):
+            if (weekday == 'Tuesday'):
+                for data in df:
+                    keys = data.keys()
+                    if ApiHandler.contains(keys, 'Tuesday, community center repaired'):
+                        timeTxt = data['Tuesday, community center repaired']
+                        locationTxt = data['Tuesday, community center repaired.1']
+                        returnString += GusHandler.build_return_schedule(timeTxt, locationTxt, 'Tuesday, community center repaired')
             for data in df:
                 keys = data.keys()
                 if ApiHandler.contains(keys, 'Normal Schedule'):
                     timeTxt = data['Normal Schedule']
                     locationTxt = data['Normal Schedule.1']
-                    returnString = GusHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
+                    returnString += GusHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
 
         return returnString
         return "No such NPC/season. Check your command."
