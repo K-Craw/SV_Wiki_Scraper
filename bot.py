@@ -17,7 +17,7 @@ client = discord.Client()
 #waits for client to run 
 @client.event
 async def on_ready():
-    print(await ShaneHandler.get_schedule('Winter', 'Monday'))
+    print(await ShaneHandler.get_schedule('Spring', 'Sunday'))
     print("Online!")
     await client.close()
 

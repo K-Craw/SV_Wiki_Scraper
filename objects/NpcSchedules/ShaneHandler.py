@@ -56,7 +56,7 @@ class ShaneHandler:
         daySet = set([])
         splitText = splitText[startIdx + 3: ]
 
-        if (weekday != 'Sunday'):
+        if (weekday != 'sunday'):
             for idx, word in enumerate(splitText):
                 if (word in WEEKDAYS)or (word[0: len(word) -1] in WEEKDAYS):
                     daySet = ShaneHandler.parse_dayset(splitText, idx)
@@ -65,7 +65,7 @@ class ShaneHandler:
                     startIdx = idx
                     break
 
-        returnStr += ShaneHandler.build_return_schedule(splitText, startIdx)
+            returnStr += ShaneHandler.build_return_schedule(splitText, startIdx)
         return returnStr
 
     #parses out the days of the current section
@@ -74,7 +74,6 @@ class ShaneHandler:
 
         #gets all the weekdays in the current section.
         for word in splitText[startidx: ]:
-            print(word)
             if (word == '-'):
                 continue
             elif (word in WEEKDAYS):
