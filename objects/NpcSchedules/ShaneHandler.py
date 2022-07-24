@@ -1,4 +1,4 @@
-from turtle import Pen, st
+from turtle import Pen
 import requests
 import pandas as pd
 from objects.ApiHandler import ApiHandler
@@ -9,7 +9,6 @@ SEASONS = set(['spring', 'summer', 'fall', 'winter'])
 
 WEEKDAYS = set(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
 WORKWEEK = set(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'])
-ALLOWEDWORDS = set(['(Community', 'Center', 'Not', 'Restored)'])
 
 #Abigail handler parses her schedule correctly.
 
@@ -20,7 +19,7 @@ class ShaneHandler:
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=shane&format=json").json()
         html = requested_JSON['parse']['text']['*']
         df = pd.read_html(html)
-        if (weekday in WORKWEEK): 
+        if (weekday in WORKWEEK):
             weekday = 'Monday'
         
         #turns the season into an uppercase season for indexing.
@@ -46,35 +45,27 @@ class ShaneHandler:
         #checks if each section contains the current weekday by calling parse_dayset each time it finds a set.
         #gets the index of the start and passes it to the return handler to build the output.
         for idx, word in enumerate(splitText):
-            if (word in WEEKDAYS) or (word[0: len(word) -1] in WEEKDAYS):
+            if (word in WEEKDAYS)or (word[0: len(word) -1] in WEEKDAYS):
                 daySet = ShaneHandler.parse_dayset(splitText, idx)
 
             if (weekday in daySet): 
                 startIdx = idx
                 break
-        returnVal = ""
-        returnVal += ShaneHandler.build_return_schedule(splitText, startIdx)
 
-        first = True
+        returnStr = ShaneHandler.build_return_schedule(splitText, startIdx)
         daySet = set([])
-        splitText = splitText[startIdx + 12:]
 
         if (weekday != 'Sunday'):
-            for idx, word in enumerate(splitText):
-                if (word in WEEKDAYS):
+            for idx, word in enumerate(splitText[startIdx + 3:]):
+                if (word in WEEKDAYS)or (word[0: len(word) -1] in WEEKDAYS):
                     daySet = ShaneHandler.parse_dayset(splitText, idx)
 
                 if (weekday in daySet): 
-                    if (weekday == 'Monday'):
-                        startIdx = idx-1
-                    elif (word == weekday):
-                        print(word)
-                        startIdx = idx 
+                    startIdx = idx
                     break
-            
-            returnVal += "\n" + ShaneHandler.build_return_schedule(splitText, startIdx )
 
-        return returnVal
+        returnStr += ShaneHandler.build_return_schedule(splitText, startIdx)
+        return returnStr
 
     #parses out the days of the current section
     def parse_dayset(splitText, startidx):
@@ -82,7 +73,7 @@ class ShaneHandler:
 
         #gets all the weekdays in the current section.
         for word in splitText[startidx: ]:
-            if (word == 'and'):
+            if (word == '-'):
                 continue
             elif (word in WEEKDAYS):
                 daySet.add(word.lower())
@@ -95,13 +86,12 @@ class ShaneHandler:
 
     #Builds the string to return once the correct section of the text has been found by parse_dayset and parse_currentWeekday.
     def build_return_schedule(splitText, startIdx):
-        print(splitText[startIdx])
         #switched from days becomes true when the first non-weekday word is found.
         #Then, once another weekday is found, we know we have found the start of another section,
         #and we can break and return.
         first = True
         switchedFromDays = False
-        returnString = ""
+        returnString = "*Does not include deviations such as single date events or rainy days.*\n"
 
         for word in splitText[startIdx:]:
             #if we're parsing out the weekdays and havent found a non-week word.
@@ -109,10 +99,12 @@ class ShaneHandler:
                 if (word[0:len(word)-1] in WEEKDAYS) or (word in WEEKDAYS) and first:
                     returnString += word
                     first = False
-                elif (word[0:len(word)-1] in WEEKDAYS) or (word in WEEKDAYS) or (word == '-') or (word in ALLOWEDWORDS):
+                elif (word[0:len(word)-1] in WEEKDAYS) or (word in WEEKDAYS) or (word == '-'):
                     returnString += ' ' + word
                 else: 
+                    returnString += ' ' + word
                     switchedFromDays = True
+
             #if we have found a word thats not a weekday or and, perform normal parsing.
             else:
                 if (word == 'Time' or word == 'Location'):
@@ -125,13 +117,12 @@ class ShaneHandler:
                             returnString += '\n\t\t-' + word
                         elif (len(word) > 2) and (word[2] == ':'):
                             returnString += '\n\t\t-' + word
-                    elif word == 'All' or word == 'Day':
+                    elif (word == 'All'):
                         returnString += '\n\t\t-' + word
                     elif word == 'Time' or word == 'Location':
                         None
                     else: 
                         returnString += " " + word
-
         return returnString
     
 #--------------------------------------------------------------------------------------------------------
