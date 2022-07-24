@@ -48,7 +48,7 @@ class AlexHandler:
                 daySet = AlexHandler.parse_dayset(splitText, idx)
             #if the set now contains the weeekday we're looking for break out
             #and set found to true;
-            if (weekday in daySet): 
+            if (weekday in daySet and weekday != 'tuesday'): 
                 startIdx = idx
                 found = True
                 break
@@ -60,7 +60,7 @@ class AlexHandler:
                     daySet = AlexHandler.parse_dayset(splitText, idx)
 
                 if ('Regular Schedule' in daySet): 
-                    startIdx = idx - 1
+                    startIdx = idx
                     found = True
                     break
 
@@ -98,12 +98,17 @@ class AlexHandler:
         for word in splitText[startIdx:]:
             #if we're parsing out the weekdays and havent found a non-week word.
             if (not switchedFromDays):
+                print(word)
                 if (word[0:len(word)-1] in WEEKDAYS) or (word in WEEKDAYS) and first:
                     returnString += word
                     first = False
+                elif word == 'Regular' or word == 'Schedule':
+                    returnString += word + ' '
                 elif (word[0:len(word)-1] in WEEKDAYS) or (word in WEEKDAYS) or (word == 'and'):
                     returnString += ' ' + word
                 else: 
+                    if (word != 'Time' and word != 'Location'):
+                        returnString += ' ' + word 
                     switchedFromDays = True
 
             #if we have found a word thats not a weekday or and, perform normal parsing.
@@ -114,11 +119,10 @@ class AlexHandler:
                     break
                 else:
                     #if the word is a time create a new time line.
-                    if word[0].isnumeric():
-                        if (len(word) > 1) and word[1] == ':': 
+                    if word[0].isnumeric() and (len(word) > 1) and word[1] == ':' or (len(word) > 2) and (word[2] == ':'):
                             returnString += '\n\t\t-' + word
-                        elif (len(word) > 2) and (word[2] == ':'):
-                            returnString += '\n\t\t-' + word
+                    elif (word[0].isnumeric()):
+                        returnString += ' ' + word
                     elif word == 'Time' or word == 'Location':
                         None
                     else: 
