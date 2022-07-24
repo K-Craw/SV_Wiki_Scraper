@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from objects.BotCommandHandler import BotCommandHandler
 from objects.NpcSchedules.AlexHandler import AlexHandler
 from objects.NpcSchedules.ClintHandler import ClintHandler
+from objects.NpcSchedules.ElliottHandler import ElliottHandler
 from objects.NpcSchedules.EvelynHandler import EvelynHandler
 from objects.NpcSchedules.GeorgeHandler import GeorgeHandler
 from objects.NpcSchedules.GusHandler import GusHandler
@@ -27,7 +28,7 @@ async def on_ready():
     day = ''
     for day in WEEKDAYS:
         print(day)
-        print(await AlexHandler.get_schedule('Summer', day))
+        print(await ElliottHandler.get_schedule('Summer', day))
 
     print("Online!")
     await client.close()

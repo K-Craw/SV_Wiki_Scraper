@@ -38,34 +38,33 @@ class ElliottHandler:
         splitText = text.split()
         daySet = set([])
         startIdx = 0
+        returnString  = "" 
 
         #checks if each section contains the current weekday by calling parse_dayset each time it finds a set.
         #gets the index of the start and passes it to the return handler to build the output.
-        found = False
         for idx, word in enumerate(splitText):
             #if the word is a day or is a day ending in a comma.
             if (word in WEEKDAYS)or (word[0: len(word) -1] in WEEKDAYS):
                 daySet = ElliottHandler.parse_dayset(splitText, idx)
             #if the set now contains the weeekday we're looking for break out
             #and set found to true;
-            if (weekday in daySet): 
+            if (weekday in daySet and weekday != 'tuesday'): 
                 startIdx = idx
-                found = True
+                returnString += ElliottHandler.build_return_schedule(splitText, startIdx)
                 break
         
         #if the requested weekday wasn't found, get the normal schedule.
-        if (not found):
-            for idx, word in enumerate(splitText):
-                if (word == 'Regular'):
-                    daySet = ElliottHandler.parse_dayset(splitText, idx)
+        for idx, word in enumerate(splitText):
+            if (word == 'Regular'):
+                daySet = ElliottHandler.parse_dayset(splitText, idx)
 
-                if ('Regular Schedule' in daySet): 
-                    startIdx = idx - 1
-                    found = True
-                    break
+            if ('Regular Schedule' in daySet): 
+                startIdx = idx
+                break
 
-
-        return ElliottHandler.build_return_schedule(splitText, startIdx)
+        returnString += '\n'
+        returnString += ElliottHandler.build_return_schedule(splitText, startIdx)
+        return returnString
 
     #parses out the days of the current section
     def parse_dayset(splitText, startidx):
@@ -104,6 +103,8 @@ class ElliottHandler:
                 elif (word[0:len(word)-1] in WEEKDAYS) or (word in WEEKDAYS) or (word == 'and'):
                     returnString += ' ' + word
                 else: 
+                    if (word != 'Time' and word != 'Location'):
+                        returnString += ' ' + word 
                     switchedFromDays = True
 
             #if we have found a word thats not a weekday or and, perform normal parsing.
@@ -114,11 +115,10 @@ class ElliottHandler:
                     break
                 else:
                     #if the word is a time create a new time line.
-                    if word[0].isnumeric():
-                        if (len(word) > 1) and word[1] == ':': 
+                    if word[0].isnumeric() and (len(word) > 1) and word[1] == ':' or (len(word) > 2) and (word[2] == ':'):
                             returnString += '\n\t\t-' + word
-                        elif (len(word) > 2) and (word[2] == ':'):
-                            returnString += '\n\t\t-' + word
+                    elif (word[0].isnumeric()):
+                        returnString += ' ' + word
                     elif word == 'Time' or word == 'Location':
                         None
                     else: 
