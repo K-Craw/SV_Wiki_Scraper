@@ -19,6 +19,7 @@ class GeorgeHandler:
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=george&format=json").json()
         html = requested_JSON['parse']['text']['*']
         df = pd.read_html(html)
+        returnString = ""
         #turns the season into an uppercase season for indexing.
         season = season.lower()
         season = season[0].upper() + season[1:len(season)]
@@ -42,12 +43,20 @@ class GeorgeHandler:
 
         #if the season is not found, then instead searches for regular schedule.
         if (not found):
-            for data in df:
-                keys = data.keys()
-                if ApiHandler.contains(keys, 'Regular Schedule'):
-                    timeTxt = data['Regular Schedule']
-                    locationTxt = data['Regular Schedule.1']
-                    returnString = GeorgeHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
+            if (season == 'Summer' and weekday == 'Friday'):
+                for data in df:
+                    keys = data.keys()
+                    if ApiHandler.contains(keys, 'Summer Friday'):
+                        timeTxt = data['Summer Friday']
+                        locationTxt = data['Summer Friday.1']
+                        returnString += GeorgeHandler.build_return_schedule(timeTxt, locationTxt, 'Summer Friday')
+            else:
+                for data in df:
+                    keys = data.keys()
+                    if ApiHandler.contains(keys, 'Regular Schedule'):
+                        timeTxt = data['Regular Schedule']
+                        locationTxt = data['Regular Schedule.1']
+                        returnString += GeorgeHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
 
         return returnString
         return "No such NPC/season. Check your command."

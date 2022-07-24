@@ -33,7 +33,6 @@ ApiHandler return.
 ----------------------------------------------------------------------------------------------------
 Noted bugs:
     - Krobus does not return likes or other gifts correctly due to his section order.
-    - Evelyn's schedule does not return community center repaired options.
     - George's schedule doesn't return his summer friday, will need to make an exception.
     - Gus's schedule doesn't return community center repaired tuesday.
     - Alex's schedule returns wednesday's phrasing with "6 hearts with Haley" weirdly.
