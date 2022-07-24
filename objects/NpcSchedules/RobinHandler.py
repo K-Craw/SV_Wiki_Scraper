@@ -19,9 +19,12 @@ class RobinHandler:
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=robin&format=json").json()
         html = requested_JSON['parse']['text']['*']
         df = pd.read_html(html)
+        returnString = "*excludes single day unique events, rainy day differences, and other deviations. Returns regular schedule if no specific schedule assigned.*\n"
         #turns the season into an uppercase season for indexing.
         season = season.lower()
         season = season[0].upper() + season[1:len(season)]
+        if (weekday == 'Monday'):
+            weekday = 'Monday, Community Center Restored'
 
         #Gets the plain text from the dataframe containing the correct season.
         found = False
@@ -33,21 +36,21 @@ class RobinHandler:
                 timeTxt = data[season]
                 locationTxt = data[season + ".1"]
                 found = True
-                returnString = RobinHandler.build_return_schedule(timeTxt, locationTxt, weekday)
+                returnString += RobinHandler.build_return_schedule(timeTxt, locationTxt, weekday)
             elif ApiHandler.contains(keys, weekday):
                 timeTxt = data[weekday]
                 locationTxt = data[weekday + ".1"]
                 found = True
-                returnString = RobinHandler.build_return_schedule(timeTxt, locationTxt, weekday)
+                returnString += RobinHandler.build_return_schedule(timeTxt, locationTxt, weekday)
 
         #if the season is not found, then instead searches for regular schedule.
-        if (not found):
+        if (not found or weekday == 'Monday, Community Center Restored'):
             for data in df:
                 keys = data.keys()
                 if ApiHandler.contains(keys, 'Regular Schedule'):
                     timeTxt = data['Regular Schedule']
                     locationTxt = data['Regular Schedule.1']
-                    returnString = RobinHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
+                    returnString += RobinHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
 
         return returnString
         return "No such NPC/season. Check your command."
@@ -58,7 +61,7 @@ class RobinHandler:
         #switched from days becomes true when the first non-weekday word is found.
         #Then, once another weekday is found, we know we have found the start of another section,
         #and we can break and return.
-        returnTxt = "*excludes single day unique events, rainy day differences, and other deviations. Returns regular schedule if no specific schedule assigned.*\n"
+        returnTxt = ""
         returnTxt = returnTxt + day + "\n"
 
         for i in range(len(timeTxt)):

@@ -1,3 +1,4 @@
+from posixpath import split
 from turtle import Pen
 import requests
 import pandas as pd
@@ -38,7 +39,7 @@ class ElliottHandler:
         splitText = text.split()
         daySet = set([])
         startIdx = 0
-        returnString  = "" 
+        returnString  = "*Does not include deviations such as single date events or rainy days.*\n" 
 
         #checks if each section contains the current weekday by calling parse_dayset each time it finds a set.
         #gets the index of the start and passes it to the return handler to build the output.
@@ -50,10 +51,24 @@ class ElliottHandler:
             #and set found to true;
             if (weekday in daySet and weekday != 'tuesday'): 
                 startIdx = idx
-                returnString += ElliottHandler.build_return_schedule(splitText, startIdx)
+                returnString += ElliottHandler.build_return_schedule(splitText, startIdx) + '\n'
                 break
-        
+
         #if the requested weekday wasn't found, get the normal schedule.
+        if (weekday == 'friday'):
+            splitText = splitText[startIdx + 3:]
+            daySet = set()
+            for idx, word in enumerate(splitText):
+            #if the word is a day or is a day ending in a comma.
+                if (word in WEEKDAYS)or (word[0: len(word) -1] in WEEKDAYS):
+                    daySet = ElliottHandler.parse_dayset(splitText, idx)
+            #if the set now contains the weeekday we're looking for break out
+            #and set found to true;
+                if (weekday in daySet and weekday != 'tuesday'): 
+                    startIdx = idx
+                    returnString += ElliottHandler.build_return_schedule(splitText, startIdx) + '\n'
+                    break
+
         for idx, word in enumerate(splitText):
             if (word == 'Regular'):
                 daySet = ElliottHandler.parse_dayset(splitText, idx)
@@ -92,7 +107,7 @@ class ElliottHandler:
         #and we can break and return.
         first = True
         switchedFromDays = False
-        returnString = "*Does not include deviations such as single date events or rainy days.*\n"
+        returnString = ""
 
         for word in splitText[startIdx:]:
             #if we're parsing out the weekdays and havent found a non-week word.

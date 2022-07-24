@@ -33,9 +33,6 @@ ApiHandler return.
 ----------------------------------------------------------------------------------------------------
 Noted bugs:
     - Krobus does not return likes or other gifts correctly due to his section order.
-    - Elliot's schedule almost works, skips random words on hearts with leah, like alex with haley.
-        Also needs to return multiple, like where two fridays are included in multiple hearts with leah.
-    - Robin's schedule doesn't return monday community centre restored + regular.
 
 -----------------------------------------------------------------------------------------------------
 
