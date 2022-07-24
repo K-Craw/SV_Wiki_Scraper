@@ -126,8 +126,6 @@ class ApiHandler:
     ##check if the key is contained in a list or DF.
     def contains(keys, target):
         for key in keys:
-            print("Key: " + key)
-            print("Target: " + target)
             if key == target:
                 return True
         return False

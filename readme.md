@@ -33,8 +33,6 @@ ApiHandler return.
 ----------------------------------------------------------------------------------------------------
 Noted bugs:
     - Krobus does not return likes or other gifts correctly due to his section order.
-    - Leah's normal schedule needs to return beach bridge repaired and not repaired.
-    - Clint's schedule on friday when the community centre is restored doesn't get accessed.
     - Evelyn's schedule does not return community center repaired options.
     - George's schedule doesn't return his summer friday, will need to make an exception.
     - Gus's schedule doesn't return community center repaired tuesday.
@@ -44,36 +42,8 @@ Noted bugs:
     - Robin's schedule doesn't return monday community centre restored + regular.
 
 -----------------------------------------------------------------------------------------------------
-SCHEDULE HANDLERS
- Alex -
- Abigail -
- Caroline -
- Clint -
- Demetrius -
- Elliot -
- Emily -
- Evelyn -
- George -
- Gus -
- Haley -
- Harvey -
- Jas -
- Jodi -
- Kent
- Leah -
- Leo -
- Lewis -
- Linus -
- Marnie
- Maru -
-Pam -
-Penny -
-Robin -
-Sam -
-Sebastian -
-Shane -
-Vincent -
-Willy -
+
+
 
 
 

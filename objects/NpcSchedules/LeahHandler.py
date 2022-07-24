@@ -29,15 +29,16 @@ class LeahHandler:
             if ApiHandler.contains(keys, season):
                 text = data[season][0]
         
-        returnString = LeahHandler.parse_currentWeekday(text, weekday.lower())
+        returnString = LeahHandler.parse_currentWeekday(text, weekday.lower(), season)
         return returnString
         return "No such NPC/season. Check your command."
 
     #Needs to be able to parse out multiple day options like 'Monday, Tuesday, Wednesday and Thursday'
-    def parse_currentWeekday(text, weekday):
+    def parse_currentWeekday(text, weekday, season):
         splitText = text.split()
         daySet = set([])
         startIdx = 0
+        returnStr = ""
 
         #checks if each section contains the current weekday by calling parse_dayset each time it finds a set.
         #gets the index of the start and passes it to the return handler to build the output.
@@ -60,12 +61,28 @@ class LeahHandler:
                     daySet = LeahHandler.parse_dayset(splitText, idx)
 
                 if ('Normal Schedule' in daySet): 
-                    startIdx = idx - 1
+                    startIdx = idx
                     found = True
                     break
+            returnStr+= LeahHandler.build_return_schedule(splitText, startIdx)
+    
+            #if it's the summer, need to retrieve bridge repaired schedule as well
+            if (season == 'Summer'):
+                returnStr += '\n\n'
+                daySet = set()
+                splitText = splitText[startIdx+ 3:]
+                for idx, word in enumerate(splitText):
+                    if (word == 'Normal'):
+                        daySet = LeahHandler.parse_dayset(splitText, idx)
 
-
-        return LeahHandler.build_return_schedule(splitText, startIdx)
+                    if ('Normal Schedule' in daySet): 
+                        startIdx = idx
+                        found = True
+                        break
+                returnStr += LeahHandler.build_return_schedule(splitText, startIdx)
+        else:
+            returnStr += LeahHandler.build_return_schedule(splitText, startIdx)
+        return returnStr
 
     #parses out the days of the current section
     def parse_dayset(splitText, startidx):
@@ -93,7 +110,7 @@ class LeahHandler:
         #and we can break and return.
         first = True
         switchedFromDays = False
-        returnString = "*Does not include deviations such as single date events or rainy days.*\n"
+        returnString = ""
 
         for word in splitText[startIdx:]:
             #if we're parsing out the weekdays and havent found a non-week word.
@@ -104,13 +121,15 @@ class LeahHandler:
                 elif (word[0:len(word)-1] in WEEKDAYS) or (word in WEEKDAYS) or (word == 'and'):
                     returnString += ' ' + word
                 else: 
+                    if (word != 'Time' and word != 'Location'):
+                        returnString += ' ' + word
                     switchedFromDays = True
 
             #if we have found a word thats not a weekday or and, perform normal parsing.
             else:
                 if (word == 'Time' or word == 'Location'):
                     continue
-                elif (word in WEEKDAYS) or (word[0:len(word) -1] in WEEKDAYS):
+                elif (word in WEEKDAYS) or (word[0:len(word) -1] in WEEKDAYS) or word == 'Normal':
                     break
                 else:
                     #if the word is a time create a new time line.

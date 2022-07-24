@@ -19,9 +19,17 @@ class EvelynHandler:
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=evelyn&format=json").json()
         html = requested_JSON['parse']['text']['*']
         df = pd.read_html(html)
+        returnString = ""
         #turns the season into an uppercase season for indexing.
         season = season.lower()
         season = season[0].upper() + season[1:len(season)]
+        if (weekday == 'Monday' or weekday == 'Thursday' or weekday == 'Saturday'):
+            for data in df:
+                    keys = data.keys()
+                    if ApiHandler.contains(keys, 'Monday, Thursday, Saturday (community center repaired)'):
+                        timeTxt = data['Monday, Thursday, Saturday (community center repaired)']
+                        locationTxt = data['Monday, Thursday, Saturday (community center repaired).1']
+                        returnString += EvelynHandler.build_return_schedule(timeTxt, locationTxt, 'Monday, Thursday, Saturday (community center repaired)')
 
         #Gets the plain text from the dataframe containing the correct season.
         found = False
@@ -32,14 +40,14 @@ class EvelynHandler:
                 if ApiHandler.contains(keys, 'Normal Daily Schedule'):
                     timeTxt = data['Normal Daily Schedule']
                     locationTxt = data['Normal Daily Schedule.1']
-                    returnString = EvelynHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
+                    returnString += EvelynHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
         else:
             for data in df:
                 keys = data.keys()
                 if ApiHandler.contains(keys, 'Summer Daily Schedule'):
                     timeTxt = data['Summer Daily Schedule']
                     locationTxt = data['Summer Daily Schedule.1']
-                    returnString = EvelynHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
+                    returnString += EvelynHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
 
         return returnString
         return "No such NPC/season. Check your command."

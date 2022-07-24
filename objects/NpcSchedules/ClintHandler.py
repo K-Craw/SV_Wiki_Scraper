@@ -23,6 +23,9 @@ class ClintHandler:
         season = season.lower()
         season = season[0].upper() + season[1:len(season)]
 
+        if (weekday == 'Friday'):
+            weekday = 'Friday (Community Center Restored)'
+
         #Gets the plain text from the dataframe containing the correct season.
         found = False
 

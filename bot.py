@@ -2,12 +2,17 @@ import os
 import discord
 from dotenv import load_dotenv
 from objects.BotCommandHandler import BotCommandHandler
+from objects.NpcSchedules.ClintHandler import ClintHandler
+from objects.NpcSchedules.EvelynHandler import EvelynHandler
 from objects.NpcSchedules.KentHandler import KentHandler
+from objects.NpcSchedules.LeahHandler import LeahHandler
 
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
 SVWIKI = os.getenv('SVWIKI')
+WEEKDAYS = set(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
+
 
 #retrieves an API response from the mediawiki endpoint
 #creates a client at the discord endpoint.
@@ -16,7 +21,11 @@ client = discord.Client()
 #waits for client to run 
 @client.event
 async def on_ready():
-    print(await KentHandler.get_schedule('Spring', 'Friday'))
+    day = ''
+    for day in WEEKDAYS:
+        print(day)
+        print(await EvelynHandler.get_schedule('Winter', day))
+
     print("Online!")
     await client.close()
 
