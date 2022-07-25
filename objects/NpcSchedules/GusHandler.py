@@ -19,7 +19,7 @@ class GusHandler:
         requested_JSON = requests.get(f"{ENDPOINT}action=parse&section=1&page=gus&format=json").json()
         html = requested_JSON['parse']['text']['*']
         df = pd.read_html(html)
-        returnString = ""
+        returnString = "*excludes single day unique events, rainy day differences, and other deviations. Returns regular schedule if no specific schedule assigned.*\n"
         #turns the season into an uppercase season for indexing.
         season = season.lower()
         season = season[0].upper() + season[1:len(season)]
@@ -66,7 +66,7 @@ class GusHandler:
         #switched from days becomes true when the first non-weekday word is found.
         #Then, once another weekday is found, we know we have found the start of another section,
         #and we can break and return.
-        returnTxt = "*excludes single day unique events, rainy day differences, and other deviations. Returns regular schedule if no specific schedule assigned.*\n"
+        returnTxt = ""
         returnTxt = returnTxt + day + "\n"
 
         for i in range(len(timeTxt)):

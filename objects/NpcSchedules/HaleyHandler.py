@@ -45,7 +45,7 @@ class HaleyHandler:
             if (word in WEEKDAYS)or (word[0: len(word) -1] in WEEKDAYS):
                 daySet = HaleyHandler.parse_dayset(splitText, idx)
 
-            if (weekday in daySet): 
+            if (weekday in daySet and weekday != 'Monday'): 
                 startIdx = idx
                 break
 

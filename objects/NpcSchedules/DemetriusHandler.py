@@ -29,12 +29,12 @@ class DemetriusHandler:
             if ApiHandler.contains(keys, season):
                 text = data[season][0]
         
-        returnString = DemetriusHandler.parse_currentWeekday(text, weekday.lower())
+        returnString = DemetriusHandler.parse_currentWeekday(text, weekday.lower(), season)
         return returnString
         return "No such NPC/season. Check your command."
 
     #Needs to be able to parse out multiple day options like 'Monday, Tuesday, Wednesday and Thursday'
-    def parse_currentWeekday(text, weekday):
+    def parse_currentWeekday(text, weekday, season):
         splitText = text.split()
         daySet = set([])
         startIdx = 0
@@ -48,21 +48,33 @@ class DemetriusHandler:
                 daySet = DemetriusHandler.parse_dayset(splitText, idx)
             #if the set now contains the weeekday we're looking for break out
             #and set found to true;
-            if (weekday in daySet): 
+            if (weekday in daySet and weekday != 'thursday'): 
                 startIdx = idx
                 found = True
                 break
         
         #if the requested weekday wasn't found, get the normal schedule.
         if (not found):
-            for idx, word in enumerate(splitText):
-                if (word == 'Normal'):
-                    daySet = DemetriusHandler.parse_dayset(splitText, idx)
+            if (season == 'Winter'):
+                for idx, word in enumerate(splitText):
+                    print(word)
+                    if (word == 'Rainy'):
+                        daySet = DemetriusHandler.parse_dayset(splitText, idx)
+                        print(daySet)
 
-                if ('Normal Schedule' in daySet): 
-                    startIdx = idx - 1
-                    found = True
-                    break
+                    if ('Rainy Day' in daySet): 
+                        startIdx = idx 
+                        found = True
+                        break
+            else:
+                for idx, word in enumerate(splitText):
+                    if (word == 'Normal'):
+                        daySet = DemetriusHandler.parse_dayset(splitText, idx)
+
+                    if ('Normal Schedule' in daySet): 
+                        startIdx = idx 
+                        found = True
+                        break
 
 
         return DemetriusHandler.build_return_schedule(splitText, startIdx)
@@ -81,6 +93,8 @@ class DemetriusHandler:
                 daySet.add(word[ 0 : len(word) - 1].lower())
             elif (word == 'Normal'):
                 daySet.add('Normal Schedule')
+            elif (word == 'Rainy'):
+                daySet.add('Rainy Day')
             else:
                 break
 
@@ -104,6 +118,8 @@ class DemetriusHandler:
                 elif (word[0:len(word)-1] in WEEKDAYS) or (word in WEEKDAYS) or (word == 'and'):
                     returnString += ' ' + word
                 else: 
+                    if (word != 'Time' and word != 'Location'):
+                        returnString += ' ' + word
                     switchedFromDays = True
 
             #if we have found a word thats not a weekday or and, perform normal parsing.

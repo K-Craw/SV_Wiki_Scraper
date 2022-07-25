@@ -2,21 +2,19 @@ import os
 import discord
 from dotenv import load_dotenv
 from objects.BotCommandHandler import BotCommandHandler
-from objects.NpcSchedules.AlexHandler import AlexHandler
-from objects.NpcSchedules.ClintHandler import ClintHandler
-from objects.NpcSchedules.ElliottHandler import ElliottHandler
-from objects.NpcSchedules.EvelynHandler import EvelynHandler
-from objects.NpcSchedules.GeorgeHandler import GeorgeHandler
-from objects.NpcSchedules.GusHandler import GusHandler
-from objects.NpcSchedules.KentHandler import KentHandler
-from objects.NpcSchedules.LeahHandler import LeahHandler
-from objects.NpcSchedules.RobinHandler import RobinHandler
+
+from objects.NpcSchedules.JodiHandler import JodiHandler
+from objects.NpcSchedules.LewisHandler import LewisHandler
+from objects.NpcSchedules.LeoHandler import LeoHandler
+from objects.NpcSchedules.WillyHandler import WillyHandler
+from objects.NpcSchedules.MaruHandler import MaruHandler
 
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
 SVWIKI = os.getenv('SVWIKI')
 WEEKDAYS = set(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
+SEASONS = set(['Spring', 'Summer', 'Fall', 'Winter'])
 
 
 #retrieves an API response from the mediawiki endpoint
@@ -27,9 +25,11 @@ client = discord.Client()
 @client.event
 async def on_ready():
     day = ''
-    for day in WEEKDAYS:
-        print(day)
-        print(await RobinHandler.get_schedule('Summer', day))
+    for season in SEASONS:
+        for day in WEEKDAYS:
+            print(season)
+            print(day)
+            print(await WillyHandler.get_schedule(season, day))
 
     print("Online!")
     await client.close()

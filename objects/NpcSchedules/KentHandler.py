@@ -39,8 +39,7 @@ class KentHandler:
                 locationTxt = data[weekday + ".1"]
                 found = True
                 returnString = KentHandler.build_return_schedule(timeTxt, locationTxt, weekday)
-        returnString = KentHandler.build_return_schedule(timeTxt, locationTxt, weekday)
-
+        
         #if the season is not found, then instead searches for regular schedule.
         if (not found):
             for data in df:

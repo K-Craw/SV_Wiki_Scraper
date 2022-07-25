@@ -23,35 +23,33 @@ class EmilyHandler:
         season = season.lower()
         season = season[0].upper() + season[1:len(season)]
 
+        if (weekday == 'Friday'):
+            weekday = 'Friday, Community Center restored'
+
         #Gets the plain text from the dataframe containing the correct season.
         found = False
         text = ""
+        returnString  = "*excludes single day unique events, rainy day differences, and other deviations. Returns regular schedule if no specific schedule assigned.*\n"
 
         #searches for the correct season in the data.
         for data in df:
             keys = data.keys()
-            if ApiHandler.contains(keys, season):
-                text = data[season]
-                timeTxt = data[season]
-                locationTxt = data[season + ".1"]
-                found = True
-                returnString = EmilyHandler.build_return_schedule(timeTxt, locationTxt, weekday)
-            elif ApiHandler.contains(keys, weekday):
+
+            if ApiHandler.contains(keys, weekday):
                 text = data[weekday]
                 timeTxt = data[weekday]
                 locationTxt = data[weekday + ".1"]
                 found = True
-                returnString = EmilyHandler.build_return_schedule(timeTxt, locationTxt, weekday)
-        returnString = EmilyHandler.build_return_schedule(timeTxt, locationTxt, weekday)
+                returnString += EmilyHandler.build_return_schedule(timeTxt, locationTxt, weekday)
 
         #if the season is not found, then instead searches for regular schedule.
-        if (not found):
+        if (not found or weekday == 'Friday, Community Center restored'):
             for data in df:
                 keys = data.keys()
                 if ApiHandler.contains(keys, 'Regular Schedule'):
                     timeTxt = data['Regular Schedule']
                     locationTxt = data['Regular Schedule.1']
-                    returnString = EmilyHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
+                    returnString += EmilyHandler.build_return_schedule(timeTxt, locationTxt, 'Regular Schedule')
 
         return returnString
         return "No such NPC/season. Check your command."
@@ -62,7 +60,7 @@ class EmilyHandler:
         #switched from days becomes true when the first non-weekday word is found.
         #Then, once another weekday is found, we know we have found the start of another section,
         #and we can break and return.
-        returnTxt = "*excludes single day unique events, rainy day differences, and other deviations. Returns regular schedule if no specific schedule assigned.*\n"
+        returnTxt = ""
         returnTxt = returnTxt + day + "\n"
 
         for i in range(len(timeTxt)):

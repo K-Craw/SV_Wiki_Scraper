@@ -70,6 +70,5 @@ class RobinHandler:
             returnTxt += " " + locationTxt[i] + "\n"
 
         return returnTxt
-        return returnString
     
 #---------------------------------------------------------------------------------------------------

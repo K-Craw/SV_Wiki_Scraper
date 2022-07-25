@@ -29,15 +29,16 @@ class AlexHandler:
             if ApiHandler.contains(keys, season):
                 text = data[season][0]
         
-        returnString = AlexHandler.parse_currentWeekday(text, weekday.lower())
+        returnString = AlexHandler.parse_currentWeekday(text, weekday.lower(), season)
         return returnString
         return "No such NPC/season. Check your command."
 
     #Needs to be able to parse out multiple day options like 'Monday, Tuesday, Wednesday and Thursday'
-    def parse_currentWeekday(text, weekday):
+    def parse_currentWeekday(text, weekday, season):
         splitText = text.split()
         daySet = set([])
         startIdx = 0
+        returnStr = '*Does not include deviations such as single date events or rainy days.*\n'
 
         #checks if each section contains the current weekday by calling parse_dayset each time it finds a set.
         #gets the index of the start and passes it to the return handler to build the output.
@@ -48,13 +49,16 @@ class AlexHandler:
                 daySet = AlexHandler.parse_dayset(splitText, idx)
             #if the set now contains the weeekday we're looking for break out
             #and set found to true;
+            if (weekday in daySet and weekday == 'wednesday' and season == 'Winter'):
+                continue
             if (weekday in daySet and weekday != 'tuesday'): 
                 startIdx = idx
                 found = True
+                returnStr += AlexHandler.build_return_schedule(splitText, startIdx) + '\n'
                 break
         
         #if the requested weekday wasn't found, get the normal schedule.
-        if (not found):
+        if (not found or weekday == 'wednesday'):
             for idx, word in enumerate(splitText):
                 if (word == 'Regular'):
                     daySet = AlexHandler.parse_dayset(splitText, idx)
@@ -62,10 +66,11 @@ class AlexHandler:
                 if ('Regular Schedule' in daySet): 
                     startIdx = idx
                     found = True
+                    returnStr += AlexHandler.build_return_schedule(splitText, startIdx)
                     break
 
 
-        return AlexHandler.build_return_schedule(splitText, startIdx)
+        return returnStr
 
     #parses out the days of the current section
     def parse_dayset(splitText, startidx):
@@ -93,12 +98,11 @@ class AlexHandler:
         #and we can break and return.
         first = True
         switchedFromDays = False
-        returnString = "*Does not include deviations such as single date events or rainy days.*\n"
+        returnString = ""
 
         for word in splitText[startIdx:]:
             #if we're parsing out the weekdays and havent found a non-week word.
             if (not switchedFromDays):
-                print(word)
                 if (word[0:len(word)-1] in WEEKDAYS) or (word in WEEKDAYS) and first:
                     returnString += word
                     first = False

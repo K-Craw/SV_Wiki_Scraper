@@ -33,10 +33,25 @@ ApiHandler return.
 ----------------------------------------------------------------------------------------------------
 Noted bugs:
     - Krobus does not return likes or other gifts correctly due to his section order.
+    - Bug in lewis' schedule.
 
 -----------------------------------------------------------------------------------------------------
-
-
+TESTED
+Alex -
+Abigail -
+Caroline - 
+Clint - 
+Demetrius - 
+Elliot - 
+Emily -
+Evelyn - 
+George - 
+Gus -
+Haley - 
+Jas - 
+Jodi - 
+Kent - 
+Leah - 
 
 
 

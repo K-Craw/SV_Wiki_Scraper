@@ -42,7 +42,7 @@ class HarveyHandler:
         #gets the index of the start and passes it to the return handler to build the output.
         found = False
         for idx, word in enumerate(splitText):
-            if (word in WEEKDAYS)or (word[0: len(word) -1] in WEEKDAYS):
+            if (word in WEEKDAYS)or (word[0: len(word) -1] in WEEKDAYS) and word != 'Monday,':
                 daySet = HarveyHandler.parse_dayset(splitText, idx)
 
             if (weekday in daySet): 
@@ -104,9 +104,9 @@ class HarveyHandler:
                     break
                 else:
                     if word[0].isnumeric():
-                        if (len(word) >= 1) and word[1] == ':': 
+                        if (len(word) > 1) and word[1] == ':': 
                             returnString += '\n\t\t-' + word
-                        elif (len(word) >= 2) and (word[2] == ':'):
+                        elif (len(word) > 2) and (word[2] == ':'):
                             returnString += '\n\t\t-' + word
                     elif word == 'Time' or word == 'Location':
                         None
